@@ -257,15 +257,6 @@ void Explicit::solve(double solveUpToTime)
 
   printf("%s inc=%ld time=%8.4E timeStep=%8.4E\n", model->name.chars(), currentIncrement, model->currentTime, timeStep);
 
-
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
-  {
-    // recuperation du noeud courant
-    Node *node = model->nodes(nodeId);
-
-    // prediction du deplacement
-    printf("node %f %f %f\n", node->field1->u(0),node->field1->u(1),node->field1->u(2));
-  }
   /*  bool runStep;
 
   // first we set the up-time
