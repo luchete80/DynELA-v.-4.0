@@ -18,15 +18,15 @@ int main()
 {
   //# Parameters of the model
   int nbreSaves = 20;
-  double stopTime = 1e-5;
+  double stopTime = 1e-4;
   int nbrePoints = 1000;
   int displacement = 7;
   double speed = 1.0;
 
   //# Material parameters
-  double young = 206000;
+  double young = 206.0e9;
   double poisson = 0.3;
-  double density = 7.83e-09;
+  double density = 7850.;
   double heatCapacity = 4.6e+08;
   double taylorQuinney = 0.9;
   double A = 806.0;
@@ -77,10 +77,10 @@ int main()
   model.add(&topNS,   7);
   model.add(&topNS,   8);
   
-  NodeSet bottomNS("NS_Bottom");   model.add(&bottomNS, 1);
-  NodeSet bottomNSy("NS_Bottomy"); model.add(&bottomNS, 2);
-  NodeSet bottomNSx("NS_Bottomx"); model.add(&bottomNS, 3);
-  NodeSet bottomNSz("NS_Bottomz"); model.add(&bottomNS, 4);
+  NodeSet bottomNS ("NS_Bottom");   model.add(&bottomNS, 1);
+  NodeSet bottomNSy("NS_Bottomy"); model.add(&bottomNSy, 2); //over x axis, restrained on y
+  NodeSet bottomNSx("NS_Bottomx"); model.add(&bottomNSx, 3);
+  NodeSet bottomNSz("NS_Bottomz"); model.add(&bottomNSz, 4);
   // model.add(symzNS, 1474)
   // model.add(symzNS, 1475)
   // model.add(symzNS, 1476)
@@ -117,16 +117,16 @@ int main()
   model.attachConstantBC(&bottomBC, &bottomNS);
 
   BoundaryRestrain bottomBCx ("BC_bottomxz");
-  bottomBC.setValue(1, 0, 1);
-  model.attachConstantBC(&bottomBCx, &bottomNS);
+  bottomBCx.setValue(1, 0, 1);
+  model.attachConstantBC(&bottomBCx, &bottomNSx);
   
   BoundaryRestrain bottomBCy ("BC_bottomyz");
-  bottomBC.setValue(0, 1, 1);
-  model.attachConstantBC(&bottomBCy, &bottomNS);
+  bottomBCy.setValue(0, 1, 1);
+  model.attachConstantBC(&bottomBCy, &bottomNSy);
 
   BoundaryRestrain bottomBCz ("BC_bottomz");
-  bottomBC.setValue(0, 0, 1);
-  model.attachConstantBC(&bottomBCx, &bottomNS);  
+  bottomBCz.setValue(0, 0, 1);
+  model.attachConstantBC(&bottomBCz, &bottomNSz);  
 
   // # Declaration of a boundary condition for SYMX plane
   // symxBC = dnl.BoundaryRestrain('SYMX_plane')

@@ -264,7 +264,7 @@ void Explicit::solve(double solveUpToTime)
     Node *node = model->nodes(nodeId);
 
     // prediction du deplacement
-    printf("node %f %f %f\n", node->field1->u(0),node->field1->u(1),node->field1->u(2));
+    printf("node %.6e %.6e %.6e\n", node->field1->u(0),node->field1->u(1),node->field1->u(2));
   }
   /*  bool runStep;
 
