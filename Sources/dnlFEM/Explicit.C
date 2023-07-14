@@ -91,6 +91,12 @@ void Explicit::computeChungHulbertIntegrationParameters()
   _gamma = 1.5 - _alphaM;
   _omegaS = sqrt((12.0 * pow(1.0 + _rho_b, 3) * (2.0 - _rho_b)) /
                  (10.0 + 15.0 * _rho_b - _rho_b * _rho_b + pow(_rho_b, 3) - pow(_rho_b, 4)));
+                 
+  //IF LEAPFROG STANDARD
+  // _alphaM  =0.;
+  // _beta = 0.50;
+  // _gamma = 0.50;
+
 
   // report operation in log file
   if (dynelaData != NULL)
@@ -264,7 +270,7 @@ void Explicit::solve(double solveUpToTime)
     Node *node = model->nodes(nodeId);
 
     // prediction du deplacement
-    printf("node %.6e %.6e %.6e\n", node->field1->u(0),node->field1->u(1),node->field1->u(2));
+    printf("node %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
   }
   /*  bool runStep;
 

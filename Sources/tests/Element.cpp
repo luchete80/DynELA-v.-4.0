@@ -17,8 +17,8 @@
 int main()
 {
   //# Parameters of the model
-  int nbreSaves = 20;
-  double stopTime = 1e-4;
+  int nbreSaves = 10;
+  double stopTime = 1e-3;
   int nbrePoints = 1000;
   int displacement = 7;
   double speed = 1.0;
