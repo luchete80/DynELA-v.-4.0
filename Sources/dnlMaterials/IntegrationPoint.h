@@ -83,6 +83,8 @@ public:
   SymTensor2 PlasticStrain;     // tenseur des deformations plastiques
   SymTensor2 PlasticStrainInc;  // increment du tenseur des deformations plastiques
   SymTensor2 Stress;            // tenseur des contraintes
+  
+  SymTensor2 StrainRate;        // increment du tenseur des deformations
 
 public:
   IntegrationPoint(int dimension, int numberOfNodes);

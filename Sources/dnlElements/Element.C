@@ -1121,6 +1121,47 @@ void Element::computeStrains()
   }
 }
 
+
+// //-----------------------------------------------------------------------------
+// void Element::computeStrainsFromStrainRate()
+// //-----------------------------------------------------------------------------
+// {
+  // long I;
+  // int i, j;
+  // // double WxdJ;
+  // // // double currentRadius;
+
+  // // // redim du vecteur InternalForce
+  // // InternalForce.redim(_elementData->numberOfNodes * _elementData->numberOfDimensions);
+  // // InternalForce = 0.0;
+
+  // // // Boucle sur les points d'integration
+  // // for (short intPoint = 0; intPoint < _elementData->numberOfIntegrationPoints; intPoint++)
+  // // {
+    // // // recuperation du point d'integration
+    // // setCurrentIntegrationPoint(intPoint);
+
+    // // // calcul du terme d'integration numerique
+    // // WxdJ = _integrationPoint->integrationPointData->weight * _integrationPoint->detJ;
+    // // if (getFamily() == Element::Axisymetric)
+    // // {
+      // // //   currentRadius = getRadiusAtIntegrationPoint();
+      // // WxdJ *= dnl2PI * _integrationPoint->radius;
+    // // }
+
+    // // calcul des forces internes
+    // for (I = 0; I < _elementData->numberOfNodes; I++) {
+      // for (i = 0; i < _elementData->numberOfDimensions; i++) {
+        // for (j = 0; j < _elementData->numberOfDimensions; j++) {
+          // // InternalForce(I * _elementData->numberOfDimensions + i) -=
+              // // _integrationPoint->dShapeFunction(I, j) * _integrationPoint->Stress(j, i) * WxdJ;
+        // }
+      // }
+
+    // }
+  // }
+// }
+
 //-----------------------------------------------------------------------------
 void Element::computePressure()
 //-----------------------------------------------------------------------------
