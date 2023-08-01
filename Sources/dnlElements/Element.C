@@ -1122,6 +1122,7 @@ void Element::computeStrains()
     printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(1,0), _integrationPoint->StrainInc(1,1),_integrationPoint->StrainInc(1,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(2,0), _integrationPoint->StrainInc(2,1),_integrationPoint->StrainInc(2,2));
 
+
     printf ("Strain Inc R \n%.6e %.6e %.6e\n", _integrationPoint->R(0,0), _integrationPoint->R(0,1),_integrationPoint->R(0,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->R(1,0), _integrationPoint->R(1,1),_integrationPoint->R(1,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->R(2,0), _integrationPoint->R(2,1),_integrationPoint->R(2,2));
@@ -1208,6 +1209,8 @@ void Element::computeFinalRotation()
     _integrationPoint->Stress = _integrationPoint->Stress.dotRxRT(_integrationPoint->R);
     _integrationPoint->Strain = _integrationPoint->Strain.dotRxRT(_integrationPoint->R);
     _integrationPoint->PlasticStrain = _integrationPoint->PlasticStrain.dotRxRT(_integrationPoint->R);
+    
+    printf ("stress %.6e",_integrationPoint->Stress(0,2));
   }
 }
 

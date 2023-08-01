@@ -293,6 +293,15 @@ void Explicit::solve(double solveUpToTime)
   
     // Write the history files
     // model->writeHistoryFiles();
+
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
+  {
+    // recuperation du noeud courant
+    Node *node = model->nodes(nodeId);
+
+    // prediction du deplacement
+    printf("node %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
+  }
   }
 
   printf("%s inc=%ld time=%8.4E timeStep=%8.4E\n", model->name.chars(), currentIncrement, model->currentTime, timeStep);
