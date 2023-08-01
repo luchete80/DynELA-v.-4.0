@@ -1118,6 +1118,8 @@ void Element::computeStrains()
     
     // Polar decomposition
     F.polarCuppenLnU(_integrationPoint->StrainInc, _integrationPoint->R);
+  
+    //F.polarJacobiLnU(_integrationPoint->StrainInc, _integrationPoint->R);
     printf ("Strain Inc U \n%.6e %.6e %.6e\n", _integrationPoint->StrainInc(0,0), _integrationPoint->StrainInc(0,1),_integrationPoint->StrainInc(0,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(1,0), _integrationPoint->StrainInc(1,1),_integrationPoint->StrainInc(1,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(2,0), _integrationPoint->StrainInc(2,1),_integrationPoint->StrainInc(2,2));

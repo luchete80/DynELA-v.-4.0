@@ -513,15 +513,22 @@ void Explicit::computePredictions()
     assert(node != NULL);
 #endif
 
+    printf ("PREV ACC \n");
+    printf ("%.6e %.6e %.6e\n",node->field0->acceleration(0),node->field0->acceleration(1),node->field0->acceleration(2));
+    
     // prediction du deplacement
     node->field1->u = timeStep * (node->field0->speed + (0.5 - _beta) * timeStep * node->field0->acceleration);
+    printf ("PRED U  \n");
+    printf ("%.6e %.6e %.6e\n",node->field1->u(0),node->field1->u(1),node->field1->u(2));
+    
     // node->field1->u = node->field0->u + node->field1->u;
     /*  node->field1->u = node->field0->acceleration;
     node->field1->u *= timeStep * (0.5 - _beta);
     node->field1->u += node->field0->speed;
     node->field1->u *= timeStep;
  */
-    printf ("Initial acceleration \n");
+    printf ("PRED Speed  \n");
+    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
     // prediction de la vitesse
     node->field1->speed = node->field0->speed + (1.0 - _gamma) * timeStep * node->field0->acceleration;
     /* node->field1->speed = node->field0->acceleration;
