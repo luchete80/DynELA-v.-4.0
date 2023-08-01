@@ -1115,6 +1115,10 @@ void Element::computeStrains()
 
     // Polar decomposition
     F.polarCuppenLnU(_integrationPoint->StrainInc, _integrationPoint->R);
+    
+    printf ("StrainInc ");
+    printf ("%.6e %.6e %.6e\n%.6e %.6e %.6e\n%.6e %.6e %.6e\n",_integrationPoint->StrainInc(0,0),_integrationPoint->StrainInc(0,1),_integrationPoint->StrainInc(0,2),
+                                                               _integrationPoint->StrainInc(1,0),_integrationPoint->StrainInc(1,1),_integrationPoint->StrainInc(1,2));
 
     // Compute the total strain tensor
     _integrationPoint->Strain += _integrationPoint->StrainInc;
@@ -1198,6 +1202,8 @@ void Element::computeFinalRotation()
     _integrationPoint->Stress = _integrationPoint->Stress.dotRxRT(_integrationPoint->R);
     _integrationPoint->Strain = _integrationPoint->Strain.dotRxRT(_integrationPoint->R);
     _integrationPoint->PlasticStrain = _integrationPoint->PlasticStrain.dotRxRT(_integrationPoint->R);
+    
+    printf ("stress %.6e",_integrationPoint->Stress(0,2));
   }
 }
 
