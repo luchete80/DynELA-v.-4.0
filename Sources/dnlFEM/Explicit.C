@@ -186,6 +186,13 @@ void Explicit::solve(double solveUpToTime)
 
   // Call of time History saves
   model->writeHistoryFiles();
+  
+  printf ("U AND R\n");
+   for (long elementId = 0; elementId < model->elements.size(); elementId++)
+  for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
+  { 
+    //printf("%.6e\n", model->elements(elementId)->StrainInc(0,0));
+  }
 
   while (model->currentTime < _solveUpToTime)
   {
@@ -216,10 +223,28 @@ void Explicit::solve(double solveUpToTime)
     model->computePressure();
     dynelaData->cpuTimes.timer("Pressure")->stop();
 
+    printf("ELEMENT PRESSURE \n");
+    for (long elementId = 0; elementId < model->elements.size(); elementId++)
+    for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
+    { 
+      printf("%.6e \n", model->elements(elementId)->getIntegrationPoint(intPointId)->pressure);
+    }
+    
     // calcul des contraintes au sein de l'element
     dynelaData->cpuTimes.timer("Stress")->start();
     model->computeStress(timeStep);
     dynelaData->cpuTimes.timer("Stress")->stop();
+    
+    printf("ELEMENT STRESSES \n");
+    for (long elementId = 0; elementId < model->elements.size(); elementId++)
+    for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
+    { 
+      printf("%.6e %.6e %.6e %.6e\n", model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,0),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,1),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(2,2),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,1));
+    }
+
 
     // Use objectivity
     dynelaData->cpuTimes.timer("FinalRotation")->start();
@@ -257,6 +282,15 @@ void Explicit::solve(double solveUpToTime)
       dynelaData->cpuTimes.timer("TimeStep")->stop();
     }
 
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
+  {
+    // recuperation du noeud courant
+    Node *node = model->nodes(nodeId);
+
+    // prediction du deplacement
+    printf("node %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
+  }
+  
     // Write the history files
     // model->writeHistoryFiles();
   }
@@ -478,7 +512,7 @@ void Explicit::computePredictions()
     node->field1->u += node->field0->speed;
     node->field1->u *= timeStep;
  */
-
+    printf ("Initial acceleration \n");
     // prediction de la vitesse
     node->field1->speed = node->field0->speed + (1.0 - _gamma) * timeStep * node->field0->acceleration;
     /* node->field1->speed = node->field0->acceleration;

@@ -1112,10 +1112,20 @@ void Element::computeStrains()
 
     // Computation of the Gradient of deformation
     computeDeformationGradient(F, 0);
-
+    printf ("Deformation gradient\n %.6e %.6e %.6e\n", F(0,0),F(0,1),F(0,2));    
+    printf ("%.6e %.6e %.6e\n", F(1,0),F(1,1),F(1,2));    
+    printf ("%.6e %.6e %.6e\n", F(2,0),F(2,1),F(2,2));    
+    
     // Polar decomposition
     F.polarCuppenLnU(_integrationPoint->StrainInc, _integrationPoint->R);
+    printf ("Strain Inc U \n%.6e %.6e %.6e\n", _integrationPoint->StrainInc(0,0), _integrationPoint->StrainInc(0,1),_integrationPoint->StrainInc(0,2));
+    printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(1,0), _integrationPoint->StrainInc(1,1),_integrationPoint->StrainInc(1,2));
+    printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(2,0), _integrationPoint->StrainInc(2,1),_integrationPoint->StrainInc(2,2));
 
+    printf ("Strain Inc R \n%.6e %.6e %.6e\n", _integrationPoint->R(0,0), _integrationPoint->R(0,1),_integrationPoint->R(0,2));
+    printf ("%.6e %.6e %.6e\n", _integrationPoint->R(1,0), _integrationPoint->R(1,1),_integrationPoint->R(1,2));
+    printf ("%.6e %.6e %.6e\n", _integrationPoint->R(2,0), _integrationPoint->R(2,1),_integrationPoint->R(2,2));
+    
     // Compute the total strain tensor
     _integrationPoint->Strain += _integrationPoint->StrainInc;
   }
