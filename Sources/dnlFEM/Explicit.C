@@ -293,14 +293,14 @@ void Explicit::solve(double solveUpToTime)
   
     // Write the history files
     // model->writeHistoryFiles();
-
+  printf("Vel \n");
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
   {
     // recuperation du noeud courant
     Node *node = model->nodes(nodeId);
 
     // prediction du deplacement
-    printf("node %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
+    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
   }
   }
 
@@ -546,6 +546,7 @@ void Explicit::computePredictions()
   }
 }
 
+using namespace std;
 // Resolution explicite de l'increment
 /*
   Cette methode effectue la resolution explicite de l'increment de temps. La methode explicite etant une methode directe, aucune iteration n'est necessaire ici, les quantites peuvent etre calculees directement en utilisante les relations suivantes:
@@ -580,6 +581,12 @@ void Explicit::explicitSolve()
     node->field1->acceleration -= _alphaM * node->field0->acceleration;
     node->field1->acceleration /= (1.0 - _alphaM);
 
+    cout << "Accel "<<endl;
+    for (int dim = 0; dim < numberOfDimensions; dim++){
+      cout << node->field1->acceleration(dim)<<"; ";
+      cout << endl;
+    }
+    
     // mise à jour de la vitesse materielle
     node->field1->speed += _gamma * timeStep * node->field1->acceleration;
 
