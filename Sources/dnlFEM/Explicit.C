@@ -239,10 +239,12 @@ void Explicit::solve(double solveUpToTime)
     for (long elementId = 0; elementId < model->elements.size(); elementId++)
     for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
     { 
-      printf("%.6e %.6e %.6e %.6e\n", model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,0),
+      printf("%.6e %.6e %.6e %.6e %.6e %.6e \n", model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,0),
       model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,1),
       model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(2,2),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,1));
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,1),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,2),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,2));
     }
 
 
