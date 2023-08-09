@@ -504,6 +504,12 @@ void Explicit::computePredictions()
   cout << "Predictions de disp, speed et acceleration\n";
 #endif
 
+  printf ("PREV V  \n");  
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
+    node = model->nodes(nodeId);
+    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
+  }
+  
   // boucle sur les noeuds du modele
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
   {
@@ -545,8 +551,16 @@ void Explicit::computePredictions()
     //  node->field1->u = node->field0->u + node->field1->u;
   }
   printf ("PRED U  \n");  
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
+    node = model->nodes(nodeId);
     printf ("%.6e %.6e %.6e\n",node->field1->u(0),node->field1->u(1),node->field1->u(2));
+  }
+
+  printf ("PRED V  \n");  
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
+    node = model->nodes(nodeId);
+    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
+  }
 
 }
 
