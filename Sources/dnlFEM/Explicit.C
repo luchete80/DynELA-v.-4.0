@@ -520,8 +520,6 @@ void Explicit::computePredictions()
     
     // prediction du deplacement
     node->field1->u = timeStep * (node->field0->speed + (0.5 - _beta) * timeStep * node->field0->acceleration);
-    printf ("PRED U  \n");
-    printf ("%.6e %.6e %.6e\n",node->field1->u(0),node->field1->u(1),node->field1->u(2));
     
     // node->field1->u = node->field0->u + node->field1->u;
     /*  node->field1->u = node->field0->acceleration;
@@ -546,6 +544,10 @@ void Explicit::computePredictions()
 
     //  node->field1->u = node->field0->u + node->field1->u;
   }
+  printf ("PRED U  \n");  
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
+    printf ("%.6e %.6e %.6e\n",node->field1->u(0),node->field1->u(1),node->field1->u(2));
+
 }
 
 using namespace std;
