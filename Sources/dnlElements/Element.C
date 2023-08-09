@@ -449,10 +449,23 @@ void Element::computeStress(double timeStep)
 
     // computation of Snorm0
     Snorm0 = DeviatoricStress.norm();
-
+    
+    printf ("STR DEV %.6e %.6e %.6e %.6e %.6e %.6e \n", _integrationPoint->StrainInc.deviator()(0,0),
+    _integrationPoint->StrainInc.deviator()(1,1),
+    _integrationPoint->StrainInc.deviator()(2,2),
+    _integrationPoint->StrainInc.deviator()(0,1),
+    _integrationPoint->StrainInc.deviator()(1,2),
+    _integrationPoint->StrainInc.deviator()(0,2));
     // Trial Deviatoric stress
     DeviatoricStress += TwoG * _integrationPoint->StrainInc.deviator();
 
+    printf ("DEV STRESS %.6e %.6e %.6e %.6e %.6e %.6e \n", DeviatoricStress(0,0),
+    DeviatoricStress(1,1),
+    DeviatoricStress(2,2),
+    DeviatoricStress(0,1),
+    DeviatoricStress(1,2),
+    DeviatoricStress(0,2));
+    
     // Computation of Snorm
     Snorm = DeviatoricStress.norm();
 
@@ -604,6 +617,13 @@ void Element::computeStress(double timeStep)
     // Compute the final stress of the element
     _integrationPoint->Stress = DeviatoricStress + _integrationPoint->pressure * Unity;
 
+      printf("STRESS CALC %.6e %.6e %.6e %.6e %.6e %.6e \n", _integrationPoint->Stress(0,0),
+      _integrationPoint->Stress(1,1),
+      _integrationPoint->Stress(2,2),
+      _integrationPoint->Stress(0,1),
+      _integrationPoint->Stress(0,2),
+      _integrationPoint->Stress(1,2));
+      
     // Compute the new specific internal energy
     stressPower = 0.5 * _integrationPoint->StrainInc.doubleDot(StressOld + _integrationPoint->Stress);
     _integrationPoint->internalEnergy += stressPower / material->density;

@@ -235,7 +235,7 @@ void Explicit::solve(double solveUpToTime)
     model->computeStress(timeStep);
     dynelaData->cpuTimes.timer("Stress")->stop();
     
-    printf("ELEMENT STRESSES \n");
+    printf("ELEMENT STRESSES PREV ROT\n");
     for (long elementId = 0; elementId < model->elements.size(); elementId++)
     for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
     { 
@@ -252,6 +252,19 @@ void Explicit::solve(double solveUpToTime)
     dynelaData->cpuTimes.timer("FinalRotation")->start();
     model->computeFinalRotation();
     dynelaData->cpuTimes.timer("FinalRotation")->stop();
+
+    printf("ELEMENT STRESSES AFTER ROT\n");
+    for (long elementId = 0; elementId < model->elements.size(); elementId++)
+    for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
+    { 
+      printf("%.6e %.6e %.6e %.6e %.6e %.6e \n", model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,0),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,1),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(2,2),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,1),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,2),
+      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,2));
+    }
+
 
     // Compute the Internal Forces
     dynelaData->cpuTimes.timer("InternalForces")->start();
