@@ -280,7 +280,7 @@ void Explicit::solve(double solveUpToTime)
 
       // calcul du pas de temps critique de la structure
       dynelaData->cpuTimes.timer("TimeStep")->start();
-      computeTimeStep();
+      //computeTimeStep();
       dynelaData->cpuTimes.timer("TimeStep")->stop();
     }
 
