@@ -507,8 +507,10 @@ void Explicit::computePredictions()
   printf ("PREV V  \n");  
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
     node = model->nodes(nodeId);
-    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
+    printf ("%.6e %.6e %.6e\n",node->field0->speed(0),node->field0->speed(1),node->field0->speed(2));
   }
+  
+  printf ("time step %.6e \n", timeStep);
   
   // boucle sur les noeuds du modele
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
