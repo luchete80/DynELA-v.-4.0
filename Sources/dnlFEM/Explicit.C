@@ -625,6 +625,10 @@ void Explicit::explicitSolve()
 
     // mise à jour du deplacement
     node->field1->u += _beta * dnlSquare(timeStep) * node->field1->acceleration;
+    
+    printf (" u beta sqtimestep acc%.6e %.6e %.6e %.6e\n", _beta * dnlSquare(timeStep) * node->field1->acceleration(2),
+                                                           _beta,dnlSquare(timeStep) ,node->field1->acceleration(2)
+                                                           );
 
     // application des conditions aux limites imposees
     if (node->boundary != NULL)

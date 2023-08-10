@@ -177,11 +177,15 @@ void Element3D::computeDeformationGradient(Tensor2 &F, short time)
 
   // initialisation a zero de F
   F.setToUnity();
-
+  
+  printf ("def GRAD, field u\n");
   // calcul de F
   for (nodeId = 0; nodeId < getNumberOfNodes(); nodeId++)
   {
+
     field = nodes(nodeId)->field(time);
+    printf ("%.6e %.6e %.6e\n", field->u(1),field->u(1),field->u(2));
+
     F(0, 0) += _integrationPoint->dShapeFunction(nodeId, 0) * field->u(0);
     F(0, 1) += _integrationPoint->dShapeFunction(nodeId, 1) * field->u(0);
     F(0, 2) += _integrationPoint->dShapeFunction(nodeId, 2) * field->u(0);
