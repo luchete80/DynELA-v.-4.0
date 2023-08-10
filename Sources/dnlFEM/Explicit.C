@@ -280,6 +280,17 @@ void Explicit::solve(double solveUpToTime)
     computeDensity();
     dynelaData->cpuTimes.timer("Density")->stop();
 
+  
+  printf("node INC DISP BEF SWAP FIELDS\n");
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
+  {
+    // recuperation du noeud courant
+    Node *node = model->nodes(nodeId);
+
+    // prediction du deplacement
+    printf("node INC DISP %.6e %.6e %.6e\n", node->field1->u(0),node->field1->u(1),node->field1->u(2));
+  }
+  
     // End step
     endStep();
 
@@ -297,14 +308,6 @@ void Explicit::solve(double solveUpToTime)
       dynelaData->cpuTimes.timer("TimeStep")->stop();
     }
 
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
-  {
-    // recuperation du noeud courant
-    Node *node = model->nodes(nodeId);
-
-    // prediction du deplacement
-    printf("node %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
-  }
   
     // Write the history files
     // model->writeHistoryFiles();
@@ -322,14 +325,18 @@ void Explicit::solve(double solveUpToTime)
   printf("%s inc=%ld time=%8.4E timeStep=%8.4E\n", model->name.chars(), currentIncrement, model->currentTime, timeStep);
 
 
+
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
   {
     // recuperation du noeud courant
     Node *node = model->nodes(nodeId);
 
     // prediction du deplacement
-    printf("node %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
+    printf("node TOTAL DISP %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
   }
+
+
+
   /*  bool runStep;
 
   // first we set the up-time
@@ -569,6 +576,12 @@ void Explicit::computePredictions()
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
     node = model->nodes(nodeId);
     printf ("%.6e %.6e %.6e\n",node->field1->u(0),node->field1->u(1),node->field1->u(2));
+  }
+
+  printf ("FIELD0->U  \n");  
+  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
+    node = model->nodes(nodeId);
+    printf ("%.6e %.6e %.6e\n",node->field0->u(0),node->field0->u(1),node->field0->u(2));
   }
 
   printf ("PRED V  \n");  
