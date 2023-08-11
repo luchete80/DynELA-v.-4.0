@@ -457,8 +457,6 @@ void Element::computeStress(double timeStep)
     _integrationPoint->StrainInc.deviator()(0,1),
     _integrationPoint->StrainInc.deviator()(1,2),
     _integrationPoint->StrainInc.deviator()(0,2));
-    // Trial Deviatoric stress
-    DeviatoricStress += TwoG * _integrationPoint->StrainInc.deviator();
 
     printf ("DEV STRESS %.6e %.6e %.6e %.6e %.6e %.6e \n", DeviatoricStress(0,0),
     DeviatoricStress(1,1),
@@ -467,6 +465,9 @@ void Element::computeStress(double timeStep)
     DeviatoricStress(1,2),
     DeviatoricStress(0,2));
     }
+    // Trial Deviatoric stress
+    DeviatoricStress += TwoG * _integrationPoint->StrainInc.deviator();
+    
     //printf ("STRIAL YIELD %.6e %.6e\n", Strial, yield);
     
     // Computation of Snorm
@@ -489,7 +490,7 @@ void Element::computeStress(double timeStep)
     // Get back yield stress
     yield = _integrationPoint->yieldStress;
     
-    yield = 100000.0e6;
+    yield = 100000.0e10;
     // yield = hardeningLaw->getYieldStress(plasticStrain, plasticStrainRate, T);
 
     // If the yield is zero, compute the first yield stress thank's to the constitutive law using the initial default value of gamma
