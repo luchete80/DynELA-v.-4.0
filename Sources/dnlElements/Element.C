@@ -621,7 +621,8 @@ void Element::computeStress(double timeStep)
 
     // Compute the final stress of the element
     _integrationPoint->Stress = DeviatoricStress + _integrationPoint->pressure * Unity;
-
+    
+    if (intPoint == 0){
       printf("STRESS CALC %.6e %.6e %.6e %.6e %.6e %.6e \n", _integrationPoint->Stress(0,0),
       _integrationPoint->Stress(1,1),
       _integrationPoint->Stress(2,2),
@@ -637,7 +638,8 @@ void Element::computeStress(double timeStep)
     DeviatoricStress(0,1),
     DeviatoricStress(1,2),
     DeviatoricStress(0,2));
-      
+    }
+    
     // Compute the new specific internal energy
     stressPower = 0.5 * _integrationPoint->StrainInc.doubleDot(StressOld + _integrationPoint->Stress);
     _integrationPoint->internalEnergy += stressPower / material->density;
