@@ -450,6 +450,7 @@ void Element::computeStress(double timeStep)
     // computation of Snorm0
     Snorm0 = DeviatoricStress.norm();
     
+    if (intPoint == 0){
     printf ("STR DEV %.6e %.6e %.6e %.6e %.6e %.6e \n", _integrationPoint->StrainInc.deviator()(0,0),
     _integrationPoint->StrainInc.deviator()(1,1),
     _integrationPoint->StrainInc.deviator()(2,2),
@@ -465,8 +466,8 @@ void Element::computeStress(double timeStep)
     DeviatoricStress(0,1),
     DeviatoricStress(1,2),
     DeviatoricStress(0,2));
-    
-    printf ("STRIAL YIELD %.6e %.6e\n", Strial, yield);
+    }
+    //printf ("STRIAL YIELD %.6e %.6e\n", Strial, yield);
     
     // Computation of Snorm
     Snorm = DeviatoricStress.norm();
@@ -488,7 +489,7 @@ void Element::computeStress(double timeStep)
     // Get back yield stress
     yield = _integrationPoint->yieldStress;
     
-    yield = 500.0e6;
+    yield = 100000.0e6;
     // yield = hardeningLaw->getYieldStress(plasticStrain, plasticStrainRate, T);
 
     // If the yield is zero, compute the first yield stress thank's to the constitutive law using the initial default value of gamma
@@ -1145,13 +1146,16 @@ void Element::computeStrains()
 
     // Computation of the Gradient of deformation
     computeDeformationGradient(F, 0);
+    
+    if (intPointId == 0){
     printf ("Deformation gradient\n %.6e %.6e %.6e\n", F(0,0),F(0,1),F(0,2));    
     printf ("%.6e %.6e %.6e\n", F(1,0),F(1,1),F(1,2));    
     printf ("%.6e %.6e %.6e\n", F(2,0),F(2,1),F(2,2));    
-    
+    }
     // Polar decomposition
     F.polarCuppenLnU(_integrationPoint->StrainInc, _integrationPoint->R);
   
+    if (intPointId ==0){
     //F.polarJacobiLnU(_integrationPoint->StrainInc, _integrationPoint->R);
     printf ("Strain Inc U \n%.6e %.6e %.6e\n", _integrationPoint->StrainInc(0,0), _integrationPoint->StrainInc(0,1),_integrationPoint->StrainInc(0,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(1,0), _integrationPoint->StrainInc(1,1),_integrationPoint->StrainInc(1,2));
@@ -1161,7 +1165,7 @@ void Element::computeStrains()
     printf ("Strain Inc R \n%.6e %.6e %.6e\n", _integrationPoint->R(0,0), _integrationPoint->R(0,1),_integrationPoint->R(0,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->R(1,0), _integrationPoint->R(1,1),_integrationPoint->R(1,2));
     printf ("%.6e %.6e %.6e\n", _integrationPoint->R(2,0), _integrationPoint->R(2,1),_integrationPoint->R(2,2));
-    
+    }
     // Compute the total strain tensor
     _integrationPoint->Strain += _integrationPoint->StrainInc;
   }
