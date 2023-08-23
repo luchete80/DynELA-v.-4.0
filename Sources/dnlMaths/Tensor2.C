@@ -1373,6 +1373,8 @@ This method computes the polar decomposition of a second order tensor $\F$ and r
 where $\F$ is a second order tensor defined by the object itself.
 @END
 */
+#include <iostream>
+using namespace std;
 //-----------------------------------------------------------------------------
 void Tensor2::polarQLLnU(SymTensor2 &U, Tensor2 &R) const
 //-----------------------------------------------------------------------------
@@ -1386,6 +1388,7 @@ void Tensor2::polarQLLnU(SymTensor2 &U, Tensor2 &R) const
 
   // Compute the eigenvalues and eigenvectors
   dsyevq3(FTF, eigenVectors, eigenValues); // QL with implicit shifts
+  
 
   // Extract the tensors for U and R
   polarExtractLnU(eigenVectors, eigenValues, U, R);
@@ -1451,7 +1454,8 @@ void Tensor2::polarCuppenLnU(SymTensor2 &U, Tensor2 &R) const
 
   // Compute the eigenvalues and eigenvectors
   dsyevd3(FTF, eigenVectors, eigenValues); // Cuppen
-
+  cout <<" eigenvalues "<<eigenValues[0]<<"; "<<eigenValues[1]<<"; "<<eigenValues[2]<<"; "<<endl;
+  
   // Extract the tensors for U and R
   polarExtractLnU(eigenVectors, eigenValues, U, R);
 }
