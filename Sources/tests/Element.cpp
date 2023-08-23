@@ -22,6 +22,7 @@ int main()
   int nbrePoints = 1000;
   int displacement = 7;
   double speed = 1.0;
+  bool test;
 
   //# Material parameters
   double young = 206.0e9;
