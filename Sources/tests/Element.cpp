@@ -77,6 +77,8 @@ int main()
   model.add(&topNS,   7);
   model.add(&topNS,   8);
   
+	omp_set_num_threads(12);
+	
   NodeSet bottomNS("NS_Bottom");   model.add(&bottomNS, 1);
   NodeSet bottomNSy("NS_Bottomy"); model.add(&bottomNS, 2);
   NodeSet bottomNSx("NS_Bottomx"); model.add(&bottomNS, 3);
