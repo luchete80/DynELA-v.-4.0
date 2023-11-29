@@ -449,25 +449,10 @@ void Element::computeStress(double timeStep)
 
     // computation of Snorm0
     Snorm0 = DeviatoricStress.norm();
-    
-    // printf ("STR DEV %.6e %.6e %.6e %.6e %.6e %.6e \n", _integrationPoint->StrainInc.deviator()(0,0),
-    // _integrationPoint->StrainInc.deviator()(1,1),
-    // _integrationPoint->StrainInc.deviator()(2,2),
-    // _integrationPoint->StrainInc.deviator()(0,1),
-    // _integrationPoint->StrainInc.deviator()(1,2),
-    // _integrationPoint->StrainInc.deviator()(0,2));
+
     // Trial Deviatoric stress
     DeviatoricStress += TwoG * _integrationPoint->StrainInc.deviator();
 
-    // printf ("DEV STRESS %.6e %.6e %.6e %.6e %.6e %.6e \n", DeviatoricStress(0,0),
-    // DeviatoricStress(1,1),
-    // DeviatoricStress(2,2),
-    // DeviatoricStress(0,1),
-    // DeviatoricStress(1,2),
-    // DeviatoricStress(0,2));
-    
-    //printf ("STRIAL YIELD %.6e %.6e\n", Strial, yield);
-    
     // Computation of Snorm
     Snorm = DeviatoricStress.norm();
 
@@ -487,8 +472,6 @@ void Element::computeStress(double timeStep)
 
     // Get back yield stress
     yield = _integrationPoint->yieldStress;
-    
-    yield = 500.0e6;
     // yield = hardeningLaw->getYieldStress(plasticStrain, plasticStrainRate, T);
 
     // If the yield is zero, compute the first yield stress thank's to the constitutive law using the initial default value of gamma
@@ -621,22 +604,6 @@ void Element::computeStress(double timeStep)
     // Compute the final stress of the element
     _integrationPoint->Stress = DeviatoricStress + _integrationPoint->pressure * Unity;
 
-      // printf("STRESS CALC %.6e %.6e %.6e %.6e %.6e %.6e \n", _integrationPoint->Stress(0,0),
-      // _integrationPoint->Stress(1,1),
-      // _integrationPoint->Stress(2,2),
-      // _integrationPoint->Stress(0,1),
-      // _integrationPoint->Stress(0,2),
-      // _integrationPoint->Stress(1,2));
-      
-    // printf("PRESSURE %.6e\n", _integrationPoint->pressure );
-
-    // printf ("DEV STRESS AGAIN %.6e %.6e %.6e %.6e %.6e %.6e \n", DeviatoricStress(0,0),
-    // DeviatoricStress(1,1),
-    // DeviatoricStress(2,2),
-    // DeviatoricStress(0,1),
-    // DeviatoricStress(1,2),
-    // DeviatoricStress(0,2));
-      
     // Compute the new specific internal energy
     stressPower = 0.5 * _integrationPoint->StrainInc.doubleDot(StressOld + _integrationPoint->Stress);
     _integrationPoint->internalEnergy += stressPower / material->density;
@@ -1145,68 +1112,14 @@ void Element::computeStrains()
 
     // Computation of the Gradient of deformation
     computeDeformationGradient(F, 0);
-    // printf ("Deformation gradient\n %.6e %.6e %.6e\n", F(0,0),F(0,1),F(0,2));    
-    // printf ("%.6e %.6e %.6e\n", F(1,0),F(1,1),F(1,2));    
-    // printf ("%.6e %.6e %.6e\n", F(2,0),F(2,1),F(2,2));    
-    
+
     // Polar decomposition
     F.polarCuppenLnU(_integrationPoint->StrainInc, _integrationPoint->R);
-  
-    //F.polarJacobiLnU(_integrationPoint->StrainInc, _integrationPoint->R);
-    // printf ("Strain Inc U \n%.6e %.6e %.6e\n", _integrationPoint->StrainInc(0,0), _integrationPoint->StrainInc(0,1),_integrationPoint->StrainInc(0,2));
-    // printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(1,0), _integrationPoint->StrainInc(1,1),_integrationPoint->StrainInc(1,2));
-    // printf ("%.6e %.6e %.6e\n", _integrationPoint->StrainInc(2,0), _integrationPoint->StrainInc(2,1),_integrationPoint->StrainInc(2,2));
 
-
-    // printf ("Strain Inc R \n%.6e %.6e %.6e\n", _integrationPoint->R(0,0), _integrationPoint->R(0,1),_integrationPoint->R(0,2));
-    // printf ("%.6e %.6e %.6e\n", _integrationPoint->R(1,0), _integrationPoint->R(1,1),_integrationPoint->R(1,2));
-    // printf ("%.6e %.6e %.6e\n", _integrationPoint->R(2,0), _integrationPoint->R(2,1),_integrationPoint->R(2,2));
-    
     // Compute the total strain tensor
     _integrationPoint->Strain += _integrationPoint->StrainInc;
   }
 }
-
-
-// //-----------------------------------------------------------------------------
-// void Element::computeStrainsFromStrainRate()
-// //-----------------------------------------------------------------------------
-// {
-  // long I;
-  // int i, j;
-  // // double WxdJ;
-  // // // double currentRadius;
-
-  // // // redim du vecteur InternalForce
-  // // InternalForce.redim(_elementData->numberOfNodes * _elementData->numberOfDimensions);
-  // // InternalForce = 0.0;
-
-  // // // Boucle sur les points d'integration
-  // // for (short intPoint = 0; intPoint < _elementData->numberOfIntegrationPoints; intPoint++)
-  // // {
-    // // // recuperation du point d'integration
-    // // setCurrentIntegrationPoint(intPoint);
-
-    // // // calcul du terme d'integration numerique
-    // // WxdJ = _integrationPoint->integrationPointData->weight * _integrationPoint->detJ;
-    // // if (getFamily() == Element::Axisymetric)
-    // // {
-      // // //   currentRadius = getRadiusAtIntegrationPoint();
-      // // WxdJ *= dnl2PI * _integrationPoint->radius;
-    // // }
-
-    // // calcul des forces internes
-    // for (I = 0; I < _elementData->numberOfNodes; I++) {
-      // for (i = 0; i < _elementData->numberOfDimensions; i++) {
-        // for (j = 0; j < _elementData->numberOfDimensions; j++) {
-          // // InternalForce(I * _elementData->numberOfDimensions + i) -=
-              // // _integrationPoint->dShapeFunction(I, j) * _integrationPoint->Stress(j, i) * WxdJ;
-        // }
-      // }
-
-    // }
-  // }
-// }
 
 //-----------------------------------------------------------------------------
 void Element::computePressure()
@@ -1244,8 +1157,6 @@ void Element::computeFinalRotation()
     _integrationPoint->Stress = _integrationPoint->Stress.dotRxRT(_integrationPoint->R);
     _integrationPoint->Strain = _integrationPoint->Strain.dotRxRT(_integrationPoint->R);
     _integrationPoint->PlasticStrain = _integrationPoint->PlasticStrain.dotRxRT(_integrationPoint->R);
-    
-    //printf ("stress %.6e",_integrationPoint->Stress(0,2));
   }
 }
 
