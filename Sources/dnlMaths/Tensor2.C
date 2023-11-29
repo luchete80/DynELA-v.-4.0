@@ -1454,7 +1454,7 @@ void Tensor2::polarCuppenLnU(SymTensor2 &U, Tensor2 &R) const
 
   // Compute the eigenvalues and eigenvectors
   dsyevd3(FTF, eigenVectors, eigenValues); // Cuppen
-  cout <<" eigenvalues "<<eigenValues[0]<<"; "<<eigenValues[1]<<"; "<<eigenValues[2]<<"; "<<endl;
+  //cout <<" eigenvalues "<<eigenValues[0]<<"; "<<eigenValues[1]<<"; "<<eigenValues[2]<<"; "<<endl;
   
   // Extract the tensors for U and R
   polarExtractLnU(eigenVectors, eigenValues, U, R);

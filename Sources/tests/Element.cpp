@@ -17,8 +17,8 @@
 int main()
 {
   //# Parameters of the model
-  int nbreSaves = 10;
-  double stopTime = 4.5e-5;
+  int nbreSaves = 1;
+  double stopTime = 1.0e-1;
   int nbrePoints = 1000;
   int displacement = 7;
   double speed = 1.0;
@@ -41,6 +41,8 @@ int main()
   char *name="BarNecking";
   DynELA model(name);
   
+	omp_set_num_threads(1);
+	
   // // # Creates the main Object
   // // # model = dnl.Model('BarNecking')
   // dnl.DynELA('BarNecking')

@@ -91,12 +91,6 @@ void Explicit::computeChungHulbertIntegrationParameters()
   _gamma = 1.5 - _alphaM;
   _omegaS = sqrt((12.0 * pow(1.0 + _rho_b, 3) * (2.0 - _rho_b)) /
                  (10.0 + 15.0 * _rho_b - _rho_b * _rho_b + pow(_rho_b, 3) - pow(_rho_b, 4)));
-                 
-  //IF LEAPFROG STANDARD
-  // _alphaM  =0.;
-  // _beta = 0.50;
-  // _gamma = 0.50;
-
 
   // report operation in log file
   if (dynelaData != NULL)
@@ -186,13 +180,6 @@ void Explicit::solve(double solveUpToTime)
 
   // Call of time History saves
   model->writeHistoryFiles();
-  
-  printf ("U AND R\n");
-   for (long elementId = 0; elementId < model->elements.size(); elementId++)
-  for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
-  { 
-    //printf("%.6e\n", model->elements(elementId)->StrainInc(0,0));
-  }
 
   while (model->currentTime < _solveUpToTime)
   {
@@ -223,48 +210,15 @@ void Explicit::solve(double solveUpToTime)
     model->computePressure();
     dynelaData->cpuTimes.timer("Pressure")->stop();
 
-    printf("ELEMENT PRESSURE \n");
-    for (long elementId = 0; elementId < model->elements.size(); elementId++)
-    for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
-    { 
-      printf("%.6e \n", model->elements(elementId)->getIntegrationPoint(intPointId)->pressure);
-    }
-    
     // calcul des contraintes au sein de l'element
     dynelaData->cpuTimes.timer("Stress")->start();
     model->computeStress(timeStep);
     dynelaData->cpuTimes.timer("Stress")->stop();
-    
-    printf("ELEMENT STRESSES PREV ROT\n");
-    for (long elementId = 0; elementId < model->elements.size(); elementId++)
-    for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
-    { 
-      printf("%.6e %.6e %.6e %.6e %.6e %.6e \n", model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,0),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,1),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(2,2),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,1),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,2),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,2));
-    }
-
 
     // Use objectivity
     dynelaData->cpuTimes.timer("FinalRotation")->start();
     model->computeFinalRotation();
     dynelaData->cpuTimes.timer("FinalRotation")->stop();
-
-    printf("ELEMENT STRESSES AFTER ROT\n");
-    for (long elementId = 0; elementId < model->elements.size(); elementId++)
-    for (short intPointId = 0; intPointId < model->elements(elementId)->getNumberOfIntegrationPoints(); intPointId++)
-    { 
-      printf("%.6e %.6e %.6e %.6e %.6e %.6e \n", model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,0),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,1),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(2,2),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,1),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(0,2),
-      model->elements(elementId)->getIntegrationPoint(intPointId)->Stress(1,2));
-    }
-
 
     // Compute the Internal Forces
     dynelaData->cpuTimes.timer("InternalForces")->start();
@@ -280,17 +234,6 @@ void Explicit::solve(double solveUpToTime)
     computeDensity();
     dynelaData->cpuTimes.timer("Density")->stop();
 
-  
-  printf("node INC DISP BEF SWAP FIELDS\n");
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
-  {
-    // recuperation du noeud courant
-    Node *node = model->nodes(nodeId);
-
-    // prediction du deplacement
-    printf("node INC DISP %.6e %.6e %.6e\n", node->field1->u(0),node->field1->u(1),node->field1->u(2));
-  }
-  
     // End step
     endStep();
 
@@ -304,38 +247,15 @@ void Explicit::solve(double solveUpToTime)
 
       // calcul du pas de temps critique de la structure
       dynelaData->cpuTimes.timer("TimeStep")->start();
-      //computeTimeStep();
+      computeTimeStep();
       dynelaData->cpuTimes.timer("TimeStep")->stop();
     }
 
-  
     // Write the history files
     // model->writeHistoryFiles();
-  printf("Vel \n");
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
-  {
-    // recuperation du noeud courant
-    Node *node = model->nodes(nodeId);
-
-    // prediction du deplacement
-    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
-  }
   }
 
   printf("%s inc=%ld time=%8.4E timeStep=%8.4E\n", model->name.chars(), currentIncrement, model->currentTime, timeStep);
-
-
-
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
-  {
-    // recuperation du noeud courant
-    Node *node = model->nodes(nodeId);
-
-    // prediction du deplacement
-    printf("node TOTAL DISP %.6e %.6e %.6e\n", node->disp(0),node->disp(1),node->disp(2));
-  }
-
-
 
   /*  bool runStep;
 
@@ -524,14 +444,6 @@ void Explicit::computePredictions()
   cout << "Predictions de disp, speed et acceleration\n";
 #endif
 
-  printf ("PREV V  \n");  
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
-    node = model->nodes(nodeId);
-    printf ("%.6e %.6e %.6e\n",node->field0->speed(0),node->field0->speed(1),node->field0->speed(2));
-  }
-  
-  printf ("time step %.6e \n", timeStep);
-  
   // boucle sur les noeuds du modele
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
   {
@@ -543,20 +455,15 @@ void Explicit::computePredictions()
     assert(node != NULL);
 #endif
 
-    printf ("PREV ACC \n");
-    printf ("%.6e %.6e %.6e\n",node->field0->acceleration(0),node->field0->acceleration(1),node->field0->acceleration(2));
-    
     // prediction du deplacement
     node->field1->u = timeStep * (node->field0->speed + (0.5 - _beta) * timeStep * node->field0->acceleration);
-    
     // node->field1->u = node->field0->u + node->field1->u;
     /*  node->field1->u = node->field0->acceleration;
     node->field1->u *= timeStep * (0.5 - _beta);
     node->field1->u += node->field0->speed;
     node->field1->u *= timeStep;
  */
-    printf ("PRED Speed  \n");
-    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
+
     // prediction de la vitesse
     node->field1->speed = node->field0->speed + (1.0 - _gamma) * timeStep * node->field0->acceleration;
     /* node->field1->speed = node->field0->acceleration;
@@ -572,27 +479,8 @@ void Explicit::computePredictions()
 
     //  node->field1->u = node->field0->u + node->field1->u;
   }
-  printf ("PRED U  \n");  
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
-    node = model->nodes(nodeId);
-    printf ("%.6e %.6e %.6e\n",node->field1->u(0),node->field1->u(1),node->field1->u(2));
-  }
-
-  printf ("FIELD0->U  \n");  
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
-    node = model->nodes(nodeId);
-    printf ("%.6e %.6e %.6e\n",node->field0->u(0),node->field0->u(1),node->field0->u(2));
-  }
-
-  printf ("PRED V  \n");  
-  for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++){
-    node = model->nodes(nodeId);
-    printf ("%.6e %.6e %.6e\n",node->field1->speed(0),node->field1->speed(1),node->field1->speed(2));
-  }
-
 }
 
-using namespace std;
 // Resolution explicite de l'increment
 /*
   Cette methode effectue la resolution explicite de l'increment de temps. La methode explicite etant une methode directe, aucune iteration n'est necessaire ici, les quantites peuvent etre calculees directement en utilisante les relations suivantes:
@@ -616,7 +504,7 @@ void Explicit::explicitSolve()
 
   // update du champ des accelerations
   for (long nodeId = 0; nodeId < model->nodes.size(); nodeId++)
-  {
+  { 
     node = model->nodes(nodeId);
 
     // mise a jour des accelerations
@@ -627,21 +515,11 @@ void Explicit::explicitSolve()
     node->field1->acceleration -= _alphaM * node->field0->acceleration;
     node->field1->acceleration /= (1.0 - _alphaM);
 
-    cout << "Accel "<<endl;
-    for (int dim = 0; dim < numberOfDimensions; dim++){
-      cout << node->field1->acceleration(dim)<<"; ";
-      cout << endl;
-    }
-    
     // mise à jour de la vitesse materielle
     node->field1->speed += _gamma * timeStep * node->field1->acceleration;
 
     // mise à jour du deplacement
     node->field1->u += _beta * dnlSquare(timeStep) * node->field1->acceleration;
-    
-    printf (" u beta sqtimestep acc%.6e %.6e %.6e %.6e\n", _beta * dnlSquare(timeStep) * node->field1->acceleration(2),
-                                                           _beta,dnlSquare(timeStep) ,node->field1->acceleration(2)
-                                                           );
 
     // application des conditions aux limites imposees
     if (node->boundary != NULL)
