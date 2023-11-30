@@ -39,7 +39,10 @@ while ( ez < nel[2]):
                               # nnodz*ez + (nel(1)+1)*(ey+1)+ex+2,nnodz*ez + (nel(1)+1)*(ey+1)+ex+1, 
                               # nnodz*(ez + 1) + (nel(1)+1)*ey + ex+1,nnodz*(ez + 1) + (nel(1)+1)*ey + ex+2, 
                               # nnodz*(ez + 1) + (nel(1)+1)*(ey+1)+ex+2,nnodz*(ez + 1)+ (nel(1)+1)*(ey+1)+ex+1}
-        file.write("model.createElement(%d %d);" % (i, nnodz*ez))
+        file.write("model.createElement(%d %d %d %d %d %d %d);\n" % (i, nnodz*ez+ (nel[0]+1)*ey + ex+1,   nnodz*ez + (nel[0]+1)*ey + ex+2, \
+                                                                  nnodz*ez + (nel[0]+1)*(ey+1)+ex+2,      nnodz*ez + (nel[0]+1)*(ey+1)+ex+1,\
+                                                                  nnodz*(ez + 1) + (nel[0]+1)*ey + ex+1,  nnodz*(ez + 1) + (nel[0]+1)*ey + ex+2)
+                  )
         # printf("Element , Elnod" %(i,elem%elnod(i,:))) 
         i=i+1
         ex = ex + 1
