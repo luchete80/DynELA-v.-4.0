@@ -24,6 +24,7 @@
 #define __SideFace_h__
 
 #include <upFemSolver.h>
+#include "dnlMaths.h"
 
 class SideFace;
 class Node;
@@ -44,13 +45,13 @@ class SideFace
   friend class List<SideFace *>;
 
 protected:
-  //  Indice Id;			// pour traiter avec ListId
+  //  Indice Id;			// pour traiter avec List
   //    Element*        element;// element de volume
 
 public:
   /// liste des noeuds composant le SideFace
   /** @dia:route 60,14;h,228.8,93.7,207.75,187.3,222.8 */
-  ListId<Node *> nodes;
+  List<Node *> nodes;
   /// normale unitaire ext�rieure au SideFace
   /** @dia:route 0,2;h,65.7353,110.521,-61.6853,-168.35,165.05 */
   Vec3D normal;
@@ -68,10 +69,10 @@ public:
 
   // fonctions membres
   //Node* getNode(Indice num);
-  Boolean addNode(Node *pnd);
-  Boolean isNodeinSideFace(Side *side, Node *pnd);
+  bool addNode(Node *pnd);
+  bool isNodeinSideFace(Side *side, Node *pnd);
   // Element* getElement();
-  Boolean attachElement(Element *pel);
+  bool attachElement(Element *pel);
   void computeScanVolume();
   void computeNormalVertex();
   void scanIncludeNodes(Side *slave);
@@ -85,7 +86,7 @@ public:
   void computeForceatPoint(const Vec3D &point, Vec3D &force);
   Vec3D averageSideFaceSpeed();
   void toFile(FILE *pfile);
-  Boolean check();
+  bool check();
 };
 
 /**
