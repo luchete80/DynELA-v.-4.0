@@ -117,8 +117,8 @@ public:
     short getNumberOfNodes() const;
     //    short getNumberOfNodesOnEdge(short i) const;
     short getNumberOfNodesOnFace(short i) const;
-    //    short getNumberOfNodesOnSideFace(short i) const;
-    //    short getNumberOfSideFaces() const;
+    short getNumberOfNodesOnSideFace(short i) const;
+    short getNumberOfSideFaces() const;
     short getType() const;
     short getVtkType() const;
     String getName() const;
@@ -175,8 +175,9 @@ public:
     void toFile(FILE *);
     void computeBoundBox();
 
-
+*/
     Node *getNodeOnSideFace(short sideFace, short node);
+/*
     Node *getNodeOnEdge(short edge, short node);
     Node *getNeighbourNode(short node, short neighbour);
 
@@ -313,7 +314,7 @@ inline short Element::getNumberOfDimensions() const
     return _elementData->numberOfDimensions;
 }
 
-/* //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 inline short Element::getNumberOfNodesOnSideFace(short i) const
 //-----------------------------------------------------------------------------
 {
@@ -327,7 +328,7 @@ inline short Element::getNumberOfNodesOnSideFace(short i) const
 #endif
     return _elementData->sideFaces[i].numberOfNodes;
 }
- */
+
 //-----------------------------------------------------------------------------
 inline short Element::getNumberOfNodesOnFace(short i) const
 //-----------------------------------------------------------------------------

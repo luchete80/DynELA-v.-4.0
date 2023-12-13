@@ -26,6 +26,10 @@
 #include "Element.h"
 #include "Select.h"
 
+#include <iostream>
+using namespace std;
+
+
 //-----------------------------------------------------------------------------
 Side::Side()
 //-----------------------------------------------------------------------------
@@ -47,14 +51,14 @@ Side::~Side()
 }
 
 //-----------------------------------------------------------------------------
-Boolean &Side::isMaster()
+bool &Side::isMaster()
 //-----------------------------------------------------------------------------
 {
   return (type);
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 Side::addSideFace(SideFace *pSideFace)
 //-----------------------------------------------------------------------------
 {
@@ -62,7 +66,7 @@ Side::addSideFace(SideFace *pSideFace)
 
   pSideFace->side = this;
 
-  return (Success);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
@@ -70,7 +74,7 @@ void Side::computeScanVolume()
 //-----------------------------------------------------------------------------
 {
   // calcul des volumes de recherche
-  for (Indice i = 0; i < sides.size(); i++)
+  for (long i = 0; i < sides.size(); i++)
     sides(i)->computeScanVolume();
 }
 
@@ -78,7 +82,7 @@ void Side::computeScanVolume()
 void Side::computeSideFacesNormals()
 //-----------------------------------------------------------------------------
 {
-  Indice i;
+  long i;
 
   // reinit a zero des normales des vertex
   for (i = 0; i < nodes.size(); i++)
@@ -103,8 +107,8 @@ void Side::Init()
 {
   Element *pel;
   Node *pnd;
-  Indice i, j, k, l, toHave, getted;
-  Boolean ok;
+  long i, j, k, l, toHave, getted;
+  bool ok;
   List<Element *> lel;
   SideFace *psf;
 
@@ -125,13 +129,13 @@ void Side::Init()
       {
         toHave = pel->getNumberOfNodesOnSideFace(k);
         getted = 0;
-        ok = False;
+        ok = false;
         for (l = 0; l < toHave; l++)
         {
           // face contains node
           if (pel->getNodeOnSideFace(k, l) == pnd)
           {
-            ok = True;
+            ok = true;
             break;
           }
         }
@@ -150,7 +154,7 @@ void Side::Init()
         if (getted == toHave)
         {
           // test if already in list
-          if (lel.contains(pel) == False)
+          if (lel.contains(pel) == false)
           {
             // add the element
             lel << pel;
@@ -176,11 +180,11 @@ void Side::Init()
 }
 
 //-----------------------------------------------------------------------------
-Indice
+long
 Side::scanIncludeNodes(Side *scanned_side)
 //-----------------------------------------------------------------------------
 {
-  Indice i, j, nb;
+  long i, j, nb;
   Node *pnd;
 
   // initialisation a zero du nombre de noeuds
@@ -218,7 +222,7 @@ void Side::computeSpeeds(Real timeStep)
 //-----------------------------------------------------------------------------
 {
   Node* pnd;
-  Indice i;
+  long i;
   Contact* pcontact;
 
   // boucle sur les noeuds
@@ -244,22 +248,22 @@ void Side::computeSpeeds(Real timeStep)
 void Side::toFile(FILE *pfile)
 //-----------------------------------------------------------------------------
 {
-  for (Indice i = 0; i < sides.size(); i++)
+  for (long i = 0; i < sides.size(); i++)
     sides(i)->toFile(pfile);
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 Side::check()
 //-----------------------------------------------------------------------------
 {
-  for (Indice i = 0; i < sides.size(); i++)
+  for (long i = 0; i < sides.size(); i++)
   {
-    if (sides(i)->check() == False)
-      return False;
+    if (sides(i)->check() == false)
+      return false;
   }
 
-  return True;
+  return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -270,7 +274,7 @@ void Side::addNodeSet(NodeSet *nset)
   assert(nset != NULL);
 #endif
 
-  for (Indice i = 0; i < nset->size(); i++)
+  for (long i = 0; i < nset->size(); i++)
   {
     nodes << nset->getNode(i);
   }

@@ -45,7 +45,7 @@ class SideFace
   friend class List<SideFace *>;
 
 protected:
-  //  Indice Id;			// pour traiter avec List
+  //  long Id;			// pour traiter avec List
   //    Element*        element;// element de volume
 
 public:
@@ -68,7 +68,7 @@ public:
   virtual ~SideFace();
 
   // fonctions membres
-  //Node* getNode(Indice num);
+  //Node* getNode(long num);
   bool addNode(Node *pnd);
   bool isNodeinSideFace(Side *side, Node *pnd);
   // Element* getElement();
@@ -78,8 +78,8 @@ public:
   void scanIncludeNodes(Side *slave);
   virtual void computeNormal() = 0;
   virtual Vec3D getTangent() = 0;
-  virtual Real computeDistanceWithPoint(const Vec3D &point) = 0;
-  Indice NoNodes();
+  virtual double computeDistanceWithPoint(const Vec3D &point) = 0;
+  long NoNodes();
   void computeNormalatPoint(const Vec3D &point, Vec3D &resu);
   virtual Vec3D computeIntersectionWith(const Vec3D &point,
                                         const Vec3D &traj) = 0;
@@ -105,7 +105,7 @@ public:
   // fonctions membres
   void computeNormal();
   Vec3D getTangent();
-  Real computeDistanceWithPoint(const Vec3D &point);
+  double computeDistanceWithPoint(const Vec3D &point);
   Vec3D computeIntersectionWith(const Vec3D &point, const Vec3D &traj);
 };
 
@@ -125,7 +125,7 @@ public:
   // fonctions membres
   void computeNormal();
   Vec3D getTangent();
-  Real computeDistanceWithPoint(const Vec3D &point);
+  double computeDistanceWithPoint(const Vec3D &point);
   Vec3D computeIntersectionWith(const Vec3D &point, const Vec3D &traj);
 };
 /*>SideFace:*/

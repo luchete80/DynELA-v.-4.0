@@ -29,9 +29,9 @@ This file is the declaration file for the ElementData class.
 #define maxNumberOfNodesByFace 6            // Maximum number of nodes by face for the elements
 #define maxNumberOfNodesNeighbour 3         // Maximum number of neighbour nodes for the elements
 #define maxNumberOfUnderIntegrationPoints 1 // Maximum number of under integration points for the elements
-//#define maxNumberOfNodesByEdge 3            // Maximum number of nodes connected to an edge for the elements
-//#define maxNumberOfNodesBySideFace 6        // Maximum number of nodes by sideface for the elements
-//#define maxNumberOfSideFaces 6              // Maximum number of sidefaces for the elements
+#define maxNumberOfNodesByEdge 3            // Maximum number of nodes connected to an edge for the elements
+#define maxNumberOfNodesBySideFace 6        // Maximum number of nodes by sideface for the elements
+#define maxNumberOfSideFaces 6              // Maximum number of sidefaces for the elements
 
 /*
   Element structure
@@ -64,12 +64,12 @@ struct ElementFace
   short number[maxNumberOfNodesByFace]; // List of the nodes composing the face of the element
 };
 
-/* struct ElementSideFace
+struct ElementSideFace
 {
     short numberOfNodes;                      // Number of nodes on the side face of the element
     short number[maxNumberOfNodesBySideFace]; // List of the nodes composing the side face of the element
 };
- */
+
 /* struct ElementEdge
 {
     short numberOfNodes;                  // Number of nodes on the edge of the element
@@ -97,8 +97,8 @@ struct ElementData
   IntegrationPointData underIntegrationPoint[maxNumberOfUnderIntegrationPoints]; // Lists of under integration points of the Element
   int numberOfFaces;                                                             // Number of faces of the element
   ElementFace faces[maxNumberOfFaces];                                           // List of the faces of the element
-                                                                                 //    int numberOfSideFaces;                                                    // Number of side faces of the element
-                                                                                 //    ElementSideFace sideFaces[maxNumberOfSideFaces];                          // List of the side faces of the element
+  int numberOfSideFaces;                                                    // Number of side faces of the element
+  ElementSideFace sideFaces[maxNumberOfSideFaces];                          // List of the side faces of the element
                                                                                  //    int numberOfEdges;                                                        // Number of edges of the element
                                                                                  //    ElementEdge edges[maxNumberOfEdges];                                      // List of the edges of the element
   int CheckElementData;                                                          // Check

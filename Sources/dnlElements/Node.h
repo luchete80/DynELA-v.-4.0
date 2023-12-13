@@ -50,6 +50,7 @@ public:
   NodalField *field1;          // New Nodal field of the node, ie. nodal field at the end of the current increment
   Vec3D coords;                // Coordinates of the corresponding node.
   Vec3D disp = 0;              // Displacement at the current node \f$ \overrightarrow{d} \f$
+  Vec3D normal;
 
 public:
   Node(long = 1, double = 0, double = 0, double = 0);

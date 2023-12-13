@@ -63,7 +63,7 @@ public:
   /** @dia:route 0,2;h,26,47.25,-21.95,-172.85,-95.25 */
   String name; //!< Nom public du NodeSet
   /** @dia:route 52,11;h,228.8,90.5,205.75,122.429,200.365 */
-  ListId<Node *> nodes; //!< Liste des noeuds
+  List<Node *> nodes; //!< Liste des noeuds
 
 public:
   // constructeurs
@@ -103,7 +103,7 @@ public:
   /** @dia:route 0,2;h,26.7353,32.5206,-22.6853,-172.85,-95.25 */
   String name; //!< Nom public de l'ElementSet
   /** @dia:route 39,12;h,149.465,88.3794,172.75,108.5,183.8 */
-  ListId<Element *> elements; //!< Liste des �l�ments
+  List<Element *> elements; //!< Liste des �l�ments
 
 public:
   // constructeurs
