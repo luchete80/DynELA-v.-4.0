@@ -41,7 +41,7 @@ public:
   // double T0;     // Initial Temperature. This field is used to store the reference value of the T of the node at the begining of the calculus
   // NodeMotion *motion;          // Node motion. This pointer reference the method used to move the point.
   // Vec3D initialCoordinates;      // Coordinates. Initial coords of the corresponding point.
-  // Vec3D normal;                // Normal vector. This vector represents the normal vector of the current point in 3D space. Such normal vector is compted from the values of the normals of the faces connected to this point.
+  Vec3D normal;                // Normal vector. This vector represents the normal vector of the current point in 3D space. Such normal vector is compted from the values of the normals of the faces connected to this point.
   BoundaryCondition *boundary; // Boundary conditions. This pointer reference the list of the boundary conditions on the current node.
   double mass;                 // Mass. This field is used to store the value of the J2 nodal mass.
   List<Element *> elements;    // Element list. This pointer reference the list of the elements that contains a reference to the current node (ie: the list of the elements that includes this node).
@@ -50,7 +50,6 @@ public:
   NodalField *field1;          // New Nodal field of the node, ie. nodal field at the end of the current increment
   Vec3D coords;                // Coordinates of the corresponding node.
   Vec3D disp = 0;              // Displacement at the current node \f$ \overrightarrow{d} \f$
-  Vec3D normal;
 
 public:
   Node(long = 1, double = 0, double = 0, double = 0);
