@@ -175,9 +175,9 @@ public:
     void toFile(FILE *);
     void computeBoundBox();
 
-*/
+
     Node *getNodeOnSideFace(short sideFace, short node);
-/*
+
     Node *getNodeOnEdge(short edge, short node);
     Node *getNeighbourNode(short node, short neighbour);
 
@@ -274,7 +274,7 @@ inline short Element::getNumberOfEdges() const
     return _elementData->numberOfEdges;
 }
  */
-/* //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 inline short Element::getNumberOfSideFaces() const
 //-----------------------------------------------------------------------------
 {
@@ -283,7 +283,7 @@ inline short Element::getNumberOfSideFaces() const
 #endif
     return _elementData->numberOfSideFaces;
 }
- */
+
 //-----------------------------------------------------------------------------
 inline short Element::getNumberOfDDL() const
 //-----------------------------------------------------------------------------

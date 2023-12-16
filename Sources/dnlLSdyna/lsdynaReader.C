@@ -57,6 +57,12 @@ void lsdynaReader::removeComments(){
   }
 }
 
+double readDoubleField(string &str, const int &pos, const int &length) {
+  double ret = 0.0;
+  std::string f_str = str.substr(pos,length);
+  return strtod(f_str);
+}
+
 void lsdynaReader::readNodes() {
   bool end = false;
   int i = 0;
@@ -78,7 +84,9 @@ void lsdynaReader::readNodes() {
   
   for (i=0;i<m_node_count;i++){
     int id;
+    readField(m_line[i], 0, 8, INT_FIELD);
     ls_node nod();
+    
   }
 
 }  //line
