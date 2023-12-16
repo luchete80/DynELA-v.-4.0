@@ -13,7 +13,7 @@ public:
 
 
 double readDoubleField(std::string &str, const int &pos, const int &length);
-int  readIntField   (std::string &str, const int &pos, const int &length);  
+int    readIntField   (std::string &str, const int &pos, const int &length);
   
 struct ls_node {
   ls_nodeconst (const int &id_, const double &x, const double &y, const double &z){
@@ -26,7 +26,28 @@ struct ls_node {
 
 struct ls_element {
   int id;
+  int pid;  //Part
   std::vector <int> node;
+};
+
+struct ls_property {
+  
+  
+};
+
+struct ls_section{
+  
+  
+};
+
+struct ls_material{
+  
+  
+};
+
+struct ls_spc{
+  int  m_node_id;
+  bool m_fix_UR[6];
 };
 
 class lsdynaReader{
@@ -37,9 +58,13 @@ public:
 protected:
   int m_line_count;
   int m_node_count;
+  int m_elem_count;
   std::vector <std::string> m_line;
   void readNodes();
   void removeComments();
+  void readElementSolid();
+  void readSPCNodes();
+  bool findSection(string &str, int * ini_pos, int *end_pos);
   
   std::vector < ls_node    > m_node;
   std::vector < ls_element > m_elem;
