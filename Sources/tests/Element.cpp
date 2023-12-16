@@ -230,7 +230,7 @@ int main()
   // svg.rotate(dnl.Vec3D(0, 1, 0), -60)
   // svg.write('mesh.svg')
 
-  
+  lsdynaReader("sphere-plate.k");
 
   // model.solve();
 

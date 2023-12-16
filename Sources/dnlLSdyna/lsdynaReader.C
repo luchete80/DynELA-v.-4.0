@@ -4,6 +4,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <stdio.h>
+
 
 using namespace std;
 
@@ -57,21 +60,48 @@ void lsdynaReader::removeComments(){
   }
 }
 
+string removeSpaces(string str) 
+{ 
+    str.erase(remove(str.begin(), str.end(), ' '), str.end()); 
+    return str; 
+}
+
 double readDoubleField(string &str, const int &pos, const int &length) {
+  cout << "reading "<<str<<endl;
   double ret = 0.0;
-  std::string f_str = str.substr(pos,length);
-  return strtod(f_str.c_str(),NULL);
+    std::string f_str = str.substr(pos,length);
+    f_str = removeSpaces(f_str);
+    // int _rep = f_str.find("E");
+    // if (_rep!=std::string::npos){
+      // f_str.replace(_rep,1,"e");
+      // // if (f_str[_rep+1]=='+')f_str.erase(_rep+1,1);
+      
+      // cout << "found E"<<", "<<"corrected: "<<f_str<<endl;
+      
+      // // sscanf(f_str.c_str(),"%f", ret); 
+      // cout << "num: "<<ret<<endl;
+    // }
+  if (str.size()<pos+length) {
+    cout << "ERROR TRYING TO READ: "<<str<<", subs: " <<f_str<<endl;
+    return ret;
+  }
+  // return ret;
+  ret = strtod(f_str.c_str(),NULL);
+  // cout << "readed: "<<ret;
+  return ret;
 }
 
 void lsdynaReader::readNodes() {
   bool end = false;
+  int ini_pos, end_pos;
   int i = 0;
   while (!end){
 
       if (m_line[i].find("*NODE") != std::string::npos){
         cout << "Node command found at line "<<m_line_count<<endl;
-        
+        ini_pos = i+1;
         m_node_count = findNextCommandLine(i,m_line) - i;
+        end_pos = ini_pos + m_node_count ;
         cout << "Node count: "<<m_node_count<<endl;
         end = true;
       }
@@ -82,12 +112,14 @@ void lsdynaReader::readNodes() {
     i++;
   } 
   
-  for (i=0;i<m_node_count;i++){
+  for (i=ini_pos;i<end_pos;i++){
     int id;
     id = readDoubleField(m_line[i], 0, 8);
     ls_node nod;
+    nod.m_id = id;
     for (int d=0;d<3;d++)
-      nod.m_x[d] = readDoubleField(m_line[i], 8+16*i, 16);
+      nod.m_x[d] = readDoubleField(m_line[i], 8+16*d, 16);
+      cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
     cout << "ID: "<<id<<end;
     
     
