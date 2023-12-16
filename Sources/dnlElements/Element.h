@@ -175,9 +175,9 @@ public:
     void toFile(FILE *);
     void computeBoundBox();
 
-
+    */
     Node *getNodeOnSideFace(short sideFace, short node);
-
+    /*
     Node *getNodeOnEdge(short edge, short node);
     Node *getNeighbourNode(short node, short neighbour);
 

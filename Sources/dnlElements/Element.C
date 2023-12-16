@@ -2270,7 +2270,7 @@ Node* Element::getNodeOnEdge(short edge, short node)
 #endif
   return nodes(_elementData->edges[edge].number[node]);
 }
-
+*/
 //-----------------------------------------------------------------------------
 Node* Element::getNodeOnSideFace (short sideface, short node)
 //-----------------------------------------------------------------------------
@@ -2280,7 +2280,7 @@ Node* Element::getNodeOnSideFace (short sideface, short node)
 #endif
   return nodes(_elementData->sideFaces[sideface].number[node]);
 }
-
+/*
 
 
 //-----------------------------------------------------------------------------

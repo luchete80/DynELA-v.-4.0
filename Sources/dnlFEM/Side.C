@@ -146,7 +146,8 @@ void Side::Init()
           for (l = 0; l < toHave; l++)
           {
             // face contains node
-            if (nodes.AppN(pel->getNodeOnSideFace(k, l)->Id) != NULL)
+            //if (nodes.AppN(pel->getNodeOnSideFace(k, l)->Id) != NULL) //ORIGINAL
+            if (nodes.AppN(pel->getNodeOnSideFace(k, l)->internalNumber()) != NULL)
               getted++;
           }
         }
