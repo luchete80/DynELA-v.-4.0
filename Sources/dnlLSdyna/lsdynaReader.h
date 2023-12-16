@@ -12,8 +12,8 @@ public:
 #define INT_FIELD     1
 
 
-double readDoubleField(string &str, const int &pos, const int &length);
-int  readIntField   (string &str, const int &pos, const int &length);  
+double readDoubleField(std::string &str, const int &pos, const int &length);
+int  readIntField   (std::string &str, const int &pos, const int &length);  
   
 struct ls_node {
   ls_nodeconst (const int &id_, const double &x, const double &y, const double &z){

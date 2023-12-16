@@ -425,7 +425,7 @@ const ElementData ElHex8N3D::_elementData = {
         }
         //
     },
-
+    */
     6, // Number of side faces of the element
     {
         // Side face number 1
@@ -459,8 +459,8 @@ const ElementData ElHex8N3D::_elementData = {
             {2, 1, 0, 3} // List of the nodes composing the side face of the element
         }
         //
-    },
-
+    },  
+    /*
     12, // Number of edges of the element
     {
         // Edge number 1

@@ -14,6 +14,9 @@
 
 #include "Field.h"
 
+
+#include "lsdynaReader.h"
+
 int main()
 {
   //# Parameters of the model
@@ -227,7 +230,9 @@ int main()
   // svg.rotate(dnl.Vec3D(0, 1, 0), -60)
   // svg.write('mesh.svg')
 
-  model.solve();
+  
+
+  // model.solve();
 
   // svg.write('temperatureCP.svg', dnl.Field.T)
   // svg.write('vonMisesCP.svg', dnl.Field.vonMises)
