@@ -28,7 +28,7 @@ FIND_PACKAGE(PythonLibs 3.11 REQUIRED)
 # -- Search for Swig
 FIND_PACKAGE(SWIG REQUIRED)
 if (WIN32)
-set (SWIG_DIR D:/Luciano/Numerico/Libs/swigwin-4.1.1/Lib)
+set (SWIG_DIR D:/Luciano/Numerico/Libs/swigwin-4.1.1/)
 endif()
 
 # add_compile_definitions(SWIG)
