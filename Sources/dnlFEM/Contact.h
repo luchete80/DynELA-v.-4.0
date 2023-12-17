@@ -52,14 +52,14 @@ public:
 
   // fonctions membres
   Indice getMotion();
-  Boolean attachSideFace(SideFace *pf);
-  Boolean detachSideFace();
-  void updateNode(Real timeStep);
+  bool attachSideFace(SideFace *pf);
+  bool detachSideFace();
+  void updateNode(double timeStep);
   void Create();
-  void computeForces(Real timeStep);
-  virtual void computetangentialForce(Real fn, Vec3D &Ft) = 0;
+  void computeForces(double timeStep);
+  virtual void computetangentialForce(double fn, Vec3D &Ft) = 0;
   //virtual void computeTangentialForce()=0;
-  //virtual void computeContactLaw(Real timeStep)=0;
+  //virtual void computeContactLaw(double timeStep)=0;
 };
 
 #endif

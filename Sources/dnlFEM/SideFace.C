@@ -29,6 +29,8 @@
 #include <Coulomb.h>
 #include <Interface.h>
 
+using namespace std;
+
 //-----------------------------------------------------------------------------
 SideFace::SideFace()
 //-----------------------------------------------------------------------------
@@ -58,16 +60,16 @@ SideFace::~SideFace()
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 SideFace::addNode(Node *pnd)
 //-----------------------------------------------------------------------------
 {
   nodes << pnd;
-  return (Success);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 SideFace::attachElement(Element *pel)
 //-----------------------------------------------------------------------------
 {
@@ -76,50 +78,50 @@ SideFace::attachElement(Element *pel)
 #endif
 
   element = pel;
-  return (Success);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 SideFace::check()
 //-----------------------------------------------------------------------------
 {
-  Boolean ok;
+  bool ok;
 
   for (Indice i = 0; i < nodes.size(); i++)
   {
-    ok = False;
+    ok = false;
     for (Indice j = 0; j < element->nodes.size(); j++)
     {
       if (element->nodes(j) == nodes(i))
-        ok = True;
+        ok = true;
     }
     if (!ok)
       fatalError("Declared contact node error",
                  "node %d is not in element %d\n", nodes(i)->number,
                  element->number);
   }
-  return True;
+  return true;
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 SideFace::isNodeinSideFace(Side *side, Node *pnd)
 //-----------------------------------------------------------------------------
 {
-  /*  if (side->isMaster()==True) {
+  /*  if (side->isMaster()==true) {
     //   cout <<" Slave Node\n";
   }	
   else {
    //    cout <<" Master Node\n"; 
-    return(False); 
+    return(false); 
   }*/
 
   // cout << "element "<<element->number<<" node "<<pnd->number<<endl;
   // appel de la fonction specialisee
-  if (element->isNodeinElement(pnd) != True)
+  if (element->isNodeinElement(pnd) != true)
   {
-    return (False);
+    return (false);
   }
 
   //cout << "Node "<<pnd->number<<" in element "<<element->number<<endl;
@@ -170,7 +172,7 @@ SideFace::isNodeinSideFace(Side *side, Node *pnd)
     // le couple est il deja fait ?
     if (pcontact->pside->element == element)
     {
-      return (False);
+      return (false);
     }
 
     // cout << "between element "<<pcontact->pside->element->number;
@@ -183,7 +185,7 @@ SideFace::isNodeinSideFace(Side *side, Node *pnd)
 
     pcontact->Create();
   }
-  return (True);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
@@ -218,7 +220,7 @@ void SideFace::computeNormalatPoint(const Vec3D &point, Vec3D &resu)
 //-----------------------------------------------------------------------------
 {
   Vec3D coord;
-  Real dist;
+  double dist;
 
   // initialiser
   coord = point;
@@ -346,10 +348,10 @@ Vec3D SideFace2D::getTangent()
 }
 
 //-----------------------------------------------------------------------------
-Real SideFace2D::computeDistanceWithPoint(const Vec3D &point)
+double SideFace2D::computeDistanceWithPoint(const Vec3D &point)
 //-----------------------------------------------------------------------------
 {
-  Real h;
+  double h;
 
   // vecteur directeur
   h = normal(0) * nodes(0)->coords(0) + normal(1) * nodes(0)->coords(1);
@@ -370,13 +372,13 @@ Vec3D SideFace2D::computeIntersectionWith(const Vec3D &point, const Vec3D &traj)
   // cout << point << endl;
   // cout << traj << endl;
 
-  Real a1 = normal(0);
-  Real b1 = normal(1);
-  Real c1 = a1 * nodes(0)->coords(0) + b1 * nodes(0)->coords(1);
-  //  Real c1=a1*(nodes(0)->coords(0)+nodes(0)->New->u(0))+b1*(nodes(0)->coords(1)+nodes(0)->New->u(1));
-  Real a2 = -traj(1);
-  Real b2 = traj(0);
-  Real c2 = a2 * point(0) + b2 * point(1);
+  double a1 = normal(0);
+  double b1 = normal(1);
+  double c1 = a1 * nodes(0)->coords(0) + b1 * nodes(0)->coords(1);
+  //  double c1=a1*(nodes(0)->coords(0)+nodes(0)->New->u(0))+b1*(nodes(0)->coords(1)+nodes(0)->New->u(1));
+  double a2 = -traj(1);
+  double b2 = traj(0);
+  double c2 = a2 * point(0) + b2 * point(1);
 
   if (a1 == 0.)
   {
@@ -464,7 +466,7 @@ Vec3D SideFace3D::getTangent()
 }
 
 //-----------------------------------------------------------------------------
-Real SideFace3D::computeDistanceWithPoint(const Vec3D &point)
+double SideFace3D::computeDistanceWithPoint(const Vec3D &point)
 //-----------------------------------------------------------------------------
 {
   cerr << "Pas encore eu d'idee intelligente pour void SideFace3D::computeDistanceWithPoint()\n";
