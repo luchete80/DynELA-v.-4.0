@@ -287,7 +287,7 @@ void Model::add(ElementSet *elementSet, long startNumber, long endNumber, long i
 
 */
 //-----------------------------------------------------------------------------
-Node *Model::getNodeByNum(long nodeNumber)
+Node* Model::getNodeByNum(long nodeNumber)
 //-----------------------------------------------------------------------------
 {
   // pehaps it's just the last one (often assumed)
@@ -354,6 +354,12 @@ bool Model::checkTopology()
     }
 
   return true;
+}
+//-----------------------------------------------------------------------------
+Node* Model::getNodeById(long i)
+//-----------------------------------------------------------------------------
+{
+  return nodes.AppN(i);
 }
 
 //-----------------------------------------------------------------------------

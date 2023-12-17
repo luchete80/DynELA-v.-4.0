@@ -97,6 +97,7 @@ public:
   double getTotalMass();
   Element *getElementByNum(long elementNumber);
   Node *getNodeByNum(long nodeNumber);
+  Node* getNodeById(long i);
   short getNumberOfDimensions();
   void compactNodesAndElements();
   void computeFinalRotation();
@@ -141,6 +142,7 @@ public:
   // direct implementation
   long getNumberOfDimensions() {return dimension;} // Dimension topologique de la grille
   */
+
 };
 
 //-----------------------------------------------------------------------------
