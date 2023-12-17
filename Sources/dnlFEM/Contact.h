@@ -51,7 +51,7 @@ public:
   virtual ~Contact();
 
   // fonctions membres
-  Indice getMotion();
+  long getMotion();
   bool attachSideFace(SideFace *pf);
   bool detachSideFace();
   void updateNode(double timeStep);

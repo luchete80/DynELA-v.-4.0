@@ -88,10 +88,10 @@ SideFace::check()
 {
   bool ok;
 
-  for (Indice i = 0; i < nodes.size(); i++)
+  for (long i = 0; i < nodes.size(); i++)
   {
     ok = false;
-    for (Indice j = 0; j < element->nodes.size(); j++)
+    for (long j = 0; j < element->nodes.size(); j++)
     {
       if (element->nodes(j) == nodes(i))
         ok = true;
@@ -203,12 +203,12 @@ void SideFace::computeScanVolume()
 void SideFace::computeNormalVertex()
 //-----------------------------------------------------------------------------
 {
-  for (Indice i = 0; i < nodes.size(); i++)
+  for (long i = 0; i < nodes.size(); i++)
     nodes(i)->normal += normal;
 }
 
 //-----------------------------------------------------------------------------
-Indice
+long
 SideFace::NoNodes()
 //-----------------------------------------------------------------------------
 {
@@ -228,7 +228,7 @@ void SideFace::computeNormalatPoint(const Vec3D &point, Vec3D &resu)
 
   //    coord+=normal*computeDistanceWithPoint(point);
 
-  for (Indice i = 0; i < nodes.size(); i++)
+  for (long i = 0; i < nodes.size(); i++)
   {
     dist = nodes(i)->coords.distance(coord);
     if (dist < 1.e-10)
@@ -259,8 +259,8 @@ void SideFace::computeForceatPoint(const Vec3D &point, Vec3D &force)
   computeNormalatPoint(point, Normal);
   cout << "normale " << normal << endl;
 
-  for (Indice i = 0; i < 3; i++)
-    for (Indice j = 0; j < 3; j++)
+  for (long i = 0; i < 3; i++)
+    for (long j = 0; j < 3; j++)
       force(i) -= Sig(i, j) * Normal(j);
 
   cout << "vecteur de force " << force << endl;
@@ -275,7 +275,7 @@ Vec3D SideFace::averageSideFaceSpeed()
 
   if (nodes.size() == 0)
     fatalError("0 noeuds dans le sideface\n", "");
-  for (Indice i = 0; i < nodes.size(); i++)
+  for (long i = 0; i < nodes.size(); i++)
     speed += nodes(i)->New->mat_speed;
   speed /= nodes.size();
 
@@ -287,7 +287,7 @@ void SideFace::toFile(FILE *pfile)
 //-----------------------------------------------------------------------------
 {
   fprintf(pfile, "  %6ld  ", element->number);
-  for (Indice i = 0; i < nodes.size(); i++)
+  for (long i = 0; i < nodes.size(); i++)
     fprintf(pfile, "%6ld  ", nodes(i)->number);
   fprintf(pfile, "\n");
 }
@@ -437,7 +437,7 @@ void SideFace3D::computeNormal()
   v2 = nodes.last()->coords - nodes(0)->coords;
   normal = v1.vectorial(v2);
 
-  for (Indice i = 1; i < nodes.size() - 2; i++)
+  for (long i = 1; i < nodes.size() - 2; i++)
   {
     v1 = nodes(i + 1)->coords - nodes(i)->coords;
     v2 = nodes(i - 1)->coords - nodes(i)->coords;
