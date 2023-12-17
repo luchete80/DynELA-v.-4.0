@@ -44,6 +44,8 @@ public:
   void getDerShapeFunctionAtPoint(Matrix &derShapeFunctions, const Vec3D &point) const;
   double getCharacteristicLength();
   double getArea();
+  void computeGlob2Loc();
+  void glob2Loc(const Vec3D &point, Vec3D &local);
 };
 
 #endif

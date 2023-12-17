@@ -23,6 +23,8 @@
 #ifndef __Contact_h__
 #define __Contact_h__
 
+class Vec3D;
+
 /* #include <Side.h> */
 /* class Side; */
 class SideFace;

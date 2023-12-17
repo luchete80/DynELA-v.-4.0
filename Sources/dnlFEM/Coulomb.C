@@ -28,7 +28,7 @@
 #include <Node.h>
 #include <NodalField.h>
 #include <SideFace.h>
-#include <Domain.h>
+#include <Model.h>
 
 //-----------------------------------------------------------------------------
 CoulombLaw::CoulombLaw()

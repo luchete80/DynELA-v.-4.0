@@ -329,3 +329,57 @@ double ElQua4N2D::getArea()
 {
     return sqrt(dnlSquare(nodes(1)->coords(0) * (nodes(0)->coords(1) - nodes(2)->coords(1)) + nodes(3)->coords(0) * (nodes(2)->coords(1) - nodes(0)->coords(1)) - (nodes(0)->coords(0) - nodes(2)->coords(0)) * (nodes(1)->coords(1) - nodes(3)->coords(1)))) / 2.0;
 }
+
+//-----------------------------------------------------------------------------
+void ElQua4N2D::computeGlob2Loc()
+//-----------------------------------------------------------------------------
+{
+  Matrix nds(getNumberOfNodes(), getNumberOfNodes());
+  Vector crds(getNumberOfNodes());
+  long i, j;
+  Node *pnd;
+
+  // calcul de la matrice
+  for (i = 0; i < getNumberOfNodes(); i++)
+  {
+    pnd = nodes(i);
+    nds(i, 0) = 1.;
+    nds(i, 1) = pnd->coords(0);
+    nds(i, 2) = pnd->coords(1);
+    nds(i, 3) = pnd->coords(0) * pnd->coords(1);
+  }
+
+  // inversion de la matrice
+  Matrix inv = nds.inverse();
+  // cout << inv;
+
+  // init
+  _globalToLocal = 0.;
+
+  // calcul des coefficients en x
+  crds(0) = -1.;
+  crds(1) = +1.;
+  crds(2) = +1.;
+  crds(3) = -1.;
+  for (i = 0; i < getNumberOfNodes(); i++)
+    for (j = 0; j < getNumberOfNodes(); j++)
+      _globalToLocal(0, i) += inv(i, j) * crds(j);
+
+  // calcul des coefficients en y
+  crds(0) = -1.;
+  crds(1) = -1.;
+  crds(2) = +1.;
+  crds(3) = +1.;
+  for (i = 0; i < getNumberOfNodes(); i++)
+    for (j = 0; j < getNumberOfNodes(); j++)
+      _globalToLocal(1, i) += inv(i, j) * crds(j);
+}
+
+//-----------------------------------------------------------------------------
+void ElQua4N2D::glob2Loc(const Vec3D &point, Vec3D &local)
+//-----------------------------------------------------------------------------
+{
+  local(0) = _globalToLocal(0, 0) + point(0) * _globalToLocal(0, 1) + point(1) * _globalToLocal(0, 2) + point(0) * point(1) * _globalToLocal(0, 3);
+  local(1) = _globalToLocal(1, 0) + point(0) * _globalToLocal(1, 1) + point(1) * _globalToLocal(1, 2) + point(0) * point(1) * _globalToLocal(1, 3);
+  local(2) = 0.;
+}

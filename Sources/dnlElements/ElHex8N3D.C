@@ -21,6 +21,8 @@
 
 #include <ElHex8N3D.h>
 #include <Node.h>
+#include <iostream>
+using namespace std;
 
 const ElementData ElHex8N3D::_elementData = {
     "ElHex8N3D",               // name of the Element
@@ -718,11 +720,11 @@ void ElHex8N3D::computeGlob2Loc ()
 //-----------------------------------------------------------------------------
 {
 }
-
+*/
 //-----------------------------------------------------------------------------
 void ElHex8N3D::glob2Loc (const Vec3D & point, Vec3D & local)
 //-----------------------------------------------------------------------------
 {
   cout << point << local << endl;
 }
- */
+ 

@@ -26,6 +26,7 @@
 #define __ContactLaw_h__
 
 #include <upFemSolver.h>
+#include "String_.h"
 
 enum
 {
