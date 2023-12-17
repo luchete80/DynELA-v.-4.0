@@ -39,7 +39,7 @@ version DynELA v. 0.9.0
 class CoulombLaw : public ContactLaw
 {
 public:
-  Real friction;
+  double friction;
 
 public:
   // constructeurs
@@ -51,7 +51,7 @@ public:
   {
     return coulombContactLaw;
   }
-  void setFriction(Real fric);
+  void setFriction(double fric);
   String Name();
   // fonctions membres
   void toFile(FILE *pfile);
@@ -67,8 +67,8 @@ version DynELA v. 0.9.0
 class Coulomb : public Contact
 {
 public:
-  Real friction;
-  //  Real penetration;
+  double friction;
+  //  double penetration;
 
 public:
   // constructeurs
@@ -78,9 +78,9 @@ public:
 
   // fonctions membres
   /**.Calcul du vecteur de force � appliquer au noeud afin de contrer la p�n�tration des deux surfaces de contact*/
-  void computetangentialForce(Real fn, Vec3D &Ft);
-  //  void computeForces(Real timeStep);
-  //  void computeSpeeds(Real timeStep);
+  void computetangentialForce(double fn, Vec3D &Ft);
+  //  void computeForces(double timeStep);
+  //  void computeSpeeds(double timeStep);
 };
 /*>Coulomb:*/
 
