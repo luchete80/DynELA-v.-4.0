@@ -175,9 +175,10 @@ public:
     bool isNodeinBoundBox(Vec3D );
     /*
     void toFile(FILE *);
+    */
     void computeBoundBox();
 
-    */
+    
     Node *getNodeOnSideFace(short sideFace, short node);
     /*
     Node *getNodeOnEdge(short edge, short node);
@@ -202,9 +203,8 @@ public:
     //virtualbool getUnderIntegrPointCoords (long, Vec3D & coords, double& weight) = 0;
     virtual void getU_atIntPoint(Vec3D &u, int t) = 0;
     virtual void getdU_atIntPoint(Tensor2 &du, int t) = 0;
-    
-    virtual void computeGlob2Loc() = 0;
     */
+    virtual void computeGlob2Loc() = 0;
     virtual void glob2Loc(const Vec3D &point, Vec3D &local) = 0;
     //virtual //void getIntgtoNodes (Vector & N, const Vec3D & point) const = 0;*/
 };

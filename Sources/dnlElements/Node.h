@@ -17,7 +17,7 @@
 class NodalField;
 class BoundaryCondition;
 class Element;
-
+class NodeMotion;
 /*
 @LABEL:Node::Node
 @SHORT:Finite Element Node class.
@@ -39,7 +39,7 @@ class Node
 
 public:
   // double T0;     // Initial Temperature. This field is used to store the reference value of the T of the node at the begining of the calculus
-  // NodeMotion *motion;          // Node motion. This pointer reference the method used to move the point.
+  NodeMotion *motion;          // Node motion. This pointer reference the method used to move the point.
   // Vec3D initialCoordinates;      // Coordinates. Initial coords of the corresponding point.
   Vec3D normal;                // Normal vector. This vector represents the normal vector of the current point in 3D space. Such normal vector is compted from the values of the normals of the faces connected to this point.
   BoundaryCondition *boundary; // Boundary conditions. This pointer reference the list of the boundary conditions on the current node.
@@ -98,13 +98,13 @@ public:
   //
 
   /**Node motion. This method is used to attach a new node motion control to the current node. See the class NodeMotion for more details about the definition of this motion control.*/
-  //   bool attachNodeMotion ( NodeMotion *motion );
+  bool attachNodeMotion ( NodeMotion *motion );
 
   /**Node motion. This method is used to detach a new node motion control to the current node. See the class NodeMotion for more details about the definition of this motion control.*/
-  //   bool detachNodeMotion ();
+  bool detachNodeMotion ();
 
   /**Node motion. This method is used to delete a new node motion control to the current node. See the class NodeMotion for more details about the definition of this motion control.*/
-  //   bool deleteNodeMotion ();
+  bool deleteNodeMotion ();
 
   /**Nodal field transfer. This method is used to transfer the field1 nodal field to the field0 one. In fact, this swaps the two fields.*/
 

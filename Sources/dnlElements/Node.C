@@ -449,7 +449,7 @@ void Node::addElement (Element * el)
   elements << el;
 }
 
-
+*/
 //-----------------------------------------------------------------------------
 bool Node::attachNodeMotion (NodeMotion * _motion)
 //-----------------------------------------------------------------------------
@@ -458,7 +458,7 @@ bool Node::attachNodeMotion (NodeMotion * _motion)
   assert (motion == NULL);
 #endif
   motion = _motion;
-  return (Success);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
@@ -471,7 +471,7 @@ bool Node::detachNodeMotion ()
 
   // detachement de l'objet
   motion = NULL;
-  return (Success);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
@@ -487,10 +487,10 @@ bool Node::deleteNodeMotion ()
 
   // detachement de l'objet
   motion = NULL;
-  return (Success);
+  return (true);
 }
 
-
+/*
 //-----------------------------------------------------------------------------
 void Node::toFile (FILE * pfile)
 //-----------------------------------------------------------------------------
