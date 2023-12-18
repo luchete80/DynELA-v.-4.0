@@ -70,7 +70,7 @@ CoulombLaw::Name()
 }
 
 //-----------------------------------------------------------------------------
-void CoulombLaw::setFriction(Real fric)
+void CoulombLaw::setFriction(double fric)
 //-----------------------------------------------------------------------------
 {
   friction = fric;
@@ -99,21 +99,21 @@ Coulomb::~Coulomb()
 }
 
 //-----------------------------------------------------------------------------
-void Coulomb::computetangentialForce(Real fn, Vec3D &Ft)
+void Coulomb::computetangentialForce(double fn, Vec3D &Ft)
 //-----------------------------------------------------------------------------
 {
   Vec3D Vt;
-  Real ft;
+  double ft;
   // Vec3D       force;
 
   // Vitesse tangentielle
   Vt =
-      node->New->mat_speed -
-      (node->New->mat_speed.dot(pside->normal)) * pside->normal;
+      node->field1->speed -
+      (node->field1->speed.dot(pside->normal)) * pside->normal;
   //  cout << "Vt =" << Vt << endl;
 
   // test dans la cas ou pas de composante tangentielle
-  if (Vt.norm2() == 0.0)
+  if (Vt.norm() == 0.0)
   {
     Ft = 0.;
     return;

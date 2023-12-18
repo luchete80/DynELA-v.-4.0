@@ -103,7 +103,7 @@ public:
   /** @dia:route 13,12;h,103.865,3.7794,107.75,3.7794,119.065 */
   List<Material *> materials; //!< liste des mat�riaux de la structure
   /** @dia:route 0,2;h,-139.1,-164.8,96.5,-68.4794,-10.3647 */
-  LogFile *logFile; //!< Fichier de logs
+  // LogFile *logFile; //!< Fichier de logs
   /** @dia:route 47,3;h,141.965,17.5794,162.75,22.9794,169.065 */
   io_Structure *resultFile;
   /** @dia:route 0,2;h,-120.6,-172.85,78,-68.4794,-10.3647 */
