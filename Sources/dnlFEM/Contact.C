@@ -27,6 +27,9 @@
 #include <Boundary.h>
 #include <Contact.h>
 #include <lagMotion.h>
+#include <iostream>
+
+using namespace std;
 
 //-----------------------------------------------------------------------------
 Contact::Contact()
@@ -50,7 +53,7 @@ Contact::~Contact()
 }
 
 //-----------------------------------------------------------------------------
-Indice
+long
 Contact::getMotion()
 //-----------------------------------------------------------------------------
 {
@@ -58,7 +61,7 @@ Contact::getMotion()
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 Contact::attachSideFace(SideFace *pf)
 //-----------------------------------------------------------------------------
 {
@@ -67,11 +70,11 @@ Contact::attachSideFace(SideFace *pf)
 #endif
 
   pside = pf;
-  return (Success);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
-Boolean
+bool
 Contact::detachSideFace()
 //-----------------------------------------------------------------------------
 {
@@ -80,7 +83,7 @@ Contact::detachSideFace()
 #endif
 
   pside = NULL;
-  return (Success);
+  return (true);
 }
 
 //-----------------------------------------------------------------------------
@@ -96,23 +99,23 @@ void Contact::Create()
 Cette m�thode effectue la mise � jour de la position d'un noeud de la structure. Les nouvelles coordonn�es sont donn�es par la relation: \f[ x_1=x_0+u_1 \f]
 */
 //-----------------------------------------------------------------------------
-void Contact::updateNode(Real timeStep)
+void Contact::updateNode(double timeStep)
 //-----------------------------------------------------------------------------
 {
   // update node coordinates
-  node->coords += node->New->delta_disp;
+  node->coords += node->field1->u;
 }
 
 //-----------------------------------------------------------------------------
-void Contact::computeForces(Real timeStep)
+void Contact::computeForces(double timeStep)
 //-----------------------------------------------------------------------------
 {
   Vec3D Ft;
-  Real fn;
+  double fn;
   Vec3D force;
   double delta;
 
-  if (pside->element->isNodeinElement(node) == True)
+  if (pside->element->isNodeinElement(node) == true)
     delta = pside->computeDistanceWithPoint(node->coords);
   else
     delta = -1.0;
@@ -121,11 +124,11 @@ void Contact::computeForces(Real timeStep)
   {
 
     // cout << delta << endl;
-    //  if (node->New->fe.dot(pside->normal)<0.) {
+    //  if (node->field1->fe.dot(pside->normal)<0.) {
     //    cout << "release of node "<<node->number<<endl;
     //    exit(0);
-    //  node->New->mat_speed=0.;
-    //  node->New->dmat_speed=0.;
+    //  node->field1->speed=0.;
+    //  node->field1->dmat_speed=0.;
 
     // detachement de l'ancien controle de mouvement
     node->detachNodeMotion();
@@ -146,7 +149,7 @@ void Contact::computeForces(Real timeStep)
   // calcul de la composante normale de la force
   //  force=(node->mass*delta/SQ(timeStep))*pside->normal;
   //  Fn=(node->mass*delta/SQ(timeStep))*pside->normal;
-  fn = 2. * node->mass * delta / SQ(timeStep);
+  fn = 2. * node->mass * delta / sqrt(timeStep);
 
   computetangentialForce(fn, Ft);
 
@@ -165,32 +168,32 @@ void Contact::computeForces(Real timeStep)
 
   // update node coordinates
   // renvoi aux anciennes coordonn�es
-  //  node->coords-=node->New->delta_disp;
+  //  node->coords-=node->field1->u;
 
   // correction de l'acc�l�ration
-  node->New->dmat_speed += force / node->mass;
+  node->field1->acceleration += force / node->mass;
   return;
 
   // correction de la vitesse
-  //  node->New->mat_speed=node->New->mat_speed-(node->New->mat_speed.dot(pside->normal))*pside->normal;
-  node->New->mat_speed =
-      node->New->mat_speed -
-      ((node->New->mat_speed /*-pside->nodes(0)->New->mat_speed*/).dot(pside->normal)) * pside->normal;
-  //  cout <<(pside->nodes(0)->New->mat_speed.dot(pside->normal))*pside->normal<<endl;
+  //  node->field1->speed=node->field1->speed-(node->field1->speed.dot(pside->normal))*pside->normal;
+  node->field1->speed =
+      node->field1->speed -
+      ((node->field1->speed /*-pside->nodes(0)->New->speed*/).dot(pside->normal)) * pside->normal;
+  //  cout <<(pside->nodes(0)->New->speed.dot(pside->normal))*pside->normal<<endl;
 
   //  node->boundary->applyConstant_V0(node);
 
   // correction du deplacement
-  //   node->New->delta_disp=timeStep*node->Current->mat_speed+
-  //    (SQ(timeStep)/2.)* ((1.-2.0*Global_Domain->ALE->displacementParameter)*node->New->dmat_speed+
-  //      2.0*Global_Domain->ALE->displacementParameter*node->New->dmat_speed);
-  cout << node->New->delta_disp << ",";
-  node->New->delta_disp += delta * pside->normal;
-  //  cout << Global_Domain << node->New->delta_disp << "\n";
+  //   node->field1->u=timeStep*node->Current->speed+
+  //    (SQ(timeStep)/2.)* ((1.-2.0*Global_Domain->ALE->displacementParameter)*node->field1->dmat_speed+
+  //      2.0*Global_Domain->ALE->displacementParameter*node->field1->dmat_speed);
+  cout << node->field1->u << ",";
+  node->field1->u += delta * pside->normal;
+  //  cout << Global_Domain << node->field1->u << "\n";
 
   node->boundary->applyConstant_V0(node);
 
   // update node coordinates and grid speed
-  //  node->New->grid_speed=node->New->mat_speed;
-  node->coords += node->New->delta_disp;
+  //  node->field1->grid_speed=node->field1->speed;
+  node->coords += node->field1->u;
 }
