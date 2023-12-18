@@ -326,3 +326,6 @@ double ElQua4NAx::getArea()
 {
     return sqrt(dnlSquare(nodes(1)->coords(0) * (nodes(0)->coords(1) - nodes(2)->coords(1)) + nodes(3)->coords(0) * (nodes(2)->coords(1) - nodes(0)->coords(1)) - (nodes(0)->coords(0) - nodes(2)->coords(0)) * (nodes(1)->coords(1) - nodes(3)->coords(1)))) / 2.0;
 }
+
+  void ElQua4NAx::computeGlob2Loc (){}
+  void ElQua4NAx::glob2Loc (const Vec3D & point, Vec3D & local){}

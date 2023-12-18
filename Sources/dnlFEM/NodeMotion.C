@@ -17,6 +17,8 @@
 // begin date : 08/04/1997
 
 #include <NodeMotion.h>
+#include <Node.h>
+#include <assert.h>
 
 //-----------------------------------------------------------------------------
 NodeMotion::NodeMotion()

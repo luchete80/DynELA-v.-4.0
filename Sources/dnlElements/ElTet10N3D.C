@@ -20,6 +20,7 @@
 */
 
 #include <ElTet10N3D.h>
+#include <Node.h>
 
 const ElementData ElTet10N3D::_elementData = {
     "ElTet10N3D",              // name of the Element
@@ -531,7 +532,7 @@ double ElTet10N3D::getVolume()
 //   cerr << "unknown ElTet10N3D::getIntgtoNodes\n";
 //   exit(-1);
 // }
-
+*/
 //-----------------------------------------------------------------------------
 void ElTet10N3D::computeGlob2Loc()
 //-----------------------------------------------------------------------------
@@ -572,4 +573,4 @@ void ElTet10N3D::glob2Loc(const Vec3D& point,Vec3D& local)
   local (2) =
     _globalToLocal (2, 0) + point (0) * _globalToLocal (2, 1) + point (1) * _globalToLocal (2, 2) + point (2) * _globalToLocal (2, 3);
 }
-*/
+

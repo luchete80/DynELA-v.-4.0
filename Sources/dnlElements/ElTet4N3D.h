@@ -54,7 +54,8 @@ public:
   double getCharacteristicLength(); // calcule et renvoie la longueur caracteristique
   double getVolume();
   // bool getUnderIntegrPointCoords (long, Vec3D & coords, double& weight) ;
-   void computeGlob2Loc();
+  */
+  void computeGlob2Loc();
   void glob2Loc(const Vec3D& point,Vec3D& local);
   //void getIntgtoNodes(Vector& N,const Vec3D& point) const; */
 };

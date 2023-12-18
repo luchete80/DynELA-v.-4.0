@@ -51,8 +51,9 @@ public:
   double getVolume () = 0;
   // bool getUnderIntegrPointCoords (long, Vec3D & coords, double& weight) = 0;
   //void getIntgtoNodes (Vector & N, const Vec3D & point) const = 0;
-  void computeGlob2Loc () = 0;
-  void glob2Loc (const Vec3D & point, Vec3D & local) = 0; */
+  */
+  virtual void computeGlob2Loc () = 0;
+  virtual void glob2Loc (const Vec3D & point, Vec3D & local) = 0; 
 };
 
 #endif
