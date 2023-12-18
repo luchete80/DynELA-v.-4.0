@@ -30,6 +30,8 @@
 #include <SideFace.h>
 #include <Model.h>
 
+#include <dynELA.h>
+
 //-----------------------------------------------------------------------------
 CoulombLaw::CoulombLaw()
 //-----------------------------------------------------------------------------
@@ -120,7 +122,9 @@ void Coulomb::computetangentialForce(double fn, Vec3D &Ft)
   }
 
   // Force tangentielle
-  Ft = -(node->mass / Global_Structure->domains.current()->/*times.timeStep*/ currentSolver->getTimeStep()) * Vt;
+  //Ft = -(node->mass / Global_Structure->domains.current()->/*times.timeStep*/ currentSolver->getTimeStep()) * Vt;
+  
+  Ft = -(node->mass / dynelaData->model.solver->getTimeStep()) * Vt;
   //  cout << "Ft =" << Ft << endl;
 
   // normalisation de Vt
@@ -130,9 +134,9 @@ void Coulomb::computetangentialForce(double fn, Vec3D &Ft)
   //  cout << "ft =" << ft << endl;
 
   // friction
-  if (friction * Abs(fn) < Abs(ft))
-    Ft = -(friction * Abs(fn)) * Vt;
+  if (friction * fabs(fn) < fabs(ft))
+    Ft = -(friction * fabs(fn)) * Vt;
   else
-    Ft = -Abs(ft) * Vt;
+    Ft = -fabs(ft) * Vt;
   //  cout << "Ft =" << Ft << endl;
 }
