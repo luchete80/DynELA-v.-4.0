@@ -20,6 +20,7 @@
 */
 
 #include <ElTri3N2D.h>
+#include <Node.h>
 
 const ElementData ElTri3N2D::_elementData = {
     "ElTri3N2D",            // name of the Element
@@ -267,7 +268,7 @@ double ElTri3N2D::getVolume ()
 //   N (2) = 3. * (pos + ksi) * (pos + eta) / 4;
 //   N (3) = 3. * (pos - ksi) * (pos + eta) / 4;
 // }
-
+*/
 //-----------------------------------------------------------------------------
 void ElTri3N2D::computeGlob2Loc ()
 //-----------------------------------------------------------------------------
@@ -327,4 +328,3 @@ void ElTri3N2D::glob2Loc (const Vec3D & point, Vec3D & local)
     point (0) * point (1) * _globalToLocal (1, 3);
   local (2) = 0.;
 }
-*/
