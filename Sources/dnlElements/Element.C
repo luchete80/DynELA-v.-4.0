@@ -2091,7 +2091,7 @@ void Element::getEnergy (double & e)
 }
 */
 //-----------------------------------------------------------------------------
-void Element::getSigmaAtPoint (Tensor2 & Stress, const Vec3D & point)
+void Element::getSigmaAtPoint (SymTensor2 & Stress, const Vec3D & point)
 //-----------------------------------------------------------------------------
 {
   long i;

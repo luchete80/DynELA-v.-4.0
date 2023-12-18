@@ -246,7 +246,7 @@ void SideFace::computeNormalatPoint(const Vec3D &point, Vec3D &resu)
 void SideFace::computeForceatPoint(const Vec3D &point, Vec3D &force)
 //-----------------------------------------------------------------------------
 {
-  Tensor2 Sig;
+  SymTensor2 Sig;
   Vec3D Normal;
 
   // calcul des contraintes au point
@@ -276,7 +276,7 @@ Vec3D SideFace::averageSideFaceSpeed()
   if (nodes.size() == 0)
     fatalError("0 noeuds dans le sideface\n", "");
   for (long i = 0; i < nodes.size(); i++)
-    speed += nodes(i)->New->mat_speed;
+    speed += nodes(i)->field1->speed;
   speed /= nodes.size();
 
   return speed;
@@ -435,19 +435,19 @@ void SideFace3D::computeNormal()
   // first one
   v1 = nodes(1)->coords - nodes(0)->coords;
   v2 = nodes.last()->coords - nodes(0)->coords;
-  normal = v1.vectorial(v2);
+  normal = v1.vectorProduct(v2);
 
   for (long i = 1; i < nodes.size() - 2; i++)
   {
     v1 = nodes(i + 1)->coords - nodes(i)->coords;
     v2 = nodes(i - 1)->coords - nodes(i)->coords;
-    normal += v1.vectorial(v2);
+    normal += v1.vectorProduct(v2);
   }
 
   // last one
   v1 = nodes(0)->coords - nodes.last()->coords;
   v2 = nodes(nodes.size() - 2)->coords - nodes.last()->coords;
-  normal += v1.vectorial(v2);
+  normal += v1.vectorProduct(v2);
 
   // normalisation du vecteur
   normal.normalize();

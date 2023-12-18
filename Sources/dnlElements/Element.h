@@ -191,7 +191,7 @@ public:
     void getEnergy(double &e);
     void getdTemp_atIntPoints(Vec3D &dT);
     */
-    void getSigmaAtPoint(Tensor2 &Stress, const Vec3D &point);
+    void getSigmaAtPoint(SymTensor2 &Stress, const Vec3D &point);
     /*
     void get_Sig_atNode(Tensor2 &Stress, long node);
     void get_Eps_atNode(Tensor2 &Strain, long node);
