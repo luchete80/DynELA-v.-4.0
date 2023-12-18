@@ -2089,7 +2089,7 @@ void Element::getEnergy (double & e)
    for (i = 0; i < _elementData->numberOfNodes; i++)
      e += _integrationPoint->integrationPointData->shapeFunction (i) * nodes (i)->field1->e;
 }
-
+*/
 //-----------------------------------------------------------------------------
 void Element::getSigmaAtPoint (Tensor2 & Stress, const Vec3D & point)
 //-----------------------------------------------------------------------------
@@ -2112,7 +2112,7 @@ void Element::getSigmaAtPoint (Tensor2 & Stress, const Vec3D & point)
   for (i = 0; i < getNumberOfIntegrationPoints (); i++)
     Stress += N (i) * integrationPoints (i)->Stress;
 }
-
+/*
 // definition de l'algorithme de calcul des valeurs nodales en fonction des valeurs stockees au point d'integration
 #define get_IntegrationValue_atNode(VAR,NODE) \
 { \
