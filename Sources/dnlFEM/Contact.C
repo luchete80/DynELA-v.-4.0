@@ -28,6 +28,8 @@
 #include <Contact.h>
 #include <lagMotion.h>
 #include <iostream>
+#include <BoundaryCondition.h>
+#include <dynELA.h>
 
 using namespace std;
 
@@ -191,8 +193,9 @@ void Contact::computeForces(double timeStep)
   node->field1->u += delta * pside->normal;
   //  cout << Global_Domain << node->field1->u << "\n";
 
-  node->boundary->applyConstant_V0(node);
+  //node->boundary->applyConstant_V0(node);
 
+  node->boundary->applyConstantOnNewFields(node, dynelaData->model.currentTime, timeStep); //NEW OR OLD?? CHECK
   // update node coordinates and grid speed
   //  node->field1->grid_speed=node->field1->speed;
   node->coords += node->field1->u;

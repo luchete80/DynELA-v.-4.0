@@ -64,7 +64,7 @@ protected:
   void removeComments();
   void readElementSolid();
   void readSPCNodes();
-  bool findSection(string &str, int * ini_pos, int *end_pos);
+  bool findSection(std::string &str, int * ini_pos, int *end_pos);
   
   std::vector < ls_node    > m_node;
   std::vector < ls_element > m_elem;

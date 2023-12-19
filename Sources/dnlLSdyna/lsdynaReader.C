@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <stdio.h>
 
-
 using namespace std;
 
 bool isComment(const string &line){
@@ -99,14 +98,13 @@ int readIntField(string &str, const int &pos, const int &length) {
 bool lsdynaReader::findSection(string &str, int * ini_pos, int *end_pos){
   
     bool end = false;
-  int ini_pos, end_pos;
   int i = 0;
   cout << "Reading Elements"<<endl;
   while (!end){
 
       if (m_line[i].find(str) != std::string::npos){
         cout << "Element Solid found at line "<<m_line_count<<endl;
-        ini_pos = i+1;
+        *ini_pos = i+1;
         m_elem_count = findNextCommandLine(i,m_line) - i;
         end_pos = ini_pos + m_elem_count -1 ;
         cout << "Elem count: "<<m_elem_count<<endl;

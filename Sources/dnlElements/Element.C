@@ -2167,7 +2167,7 @@ void Element::get_evp_atNode (double & plasticStrain, long i)
 {
   get_IntegrationValue_atNode(plasticStrain, nodes (i));
 }
-
+*/
 //-----------------------------------------------------------------------------
 void Element::computeBoundBox ()
 //-----------------------------------------------------------------------------
@@ -2190,7 +2190,7 @@ void Element::computeBoundBox ()
   }
     }
 }
-*/
+
 //-----------------------------------------------------------------------------
 bool Element::isNodeinBoundBox (Vec3D coords)
 //-----------------------------------------------------------------------------

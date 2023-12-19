@@ -23,8 +23,8 @@
 #ifndef __Side_h__
 #define __Side_h__
 
-#include "List.h"
-
+#include <upFemSolver.h>
+#include "dnlMaths.h"
 /* #include <SideFace.h> */
 class SideFace;
 class NodeSet;
@@ -49,7 +49,7 @@ public:
   List<SideFace *> sides;
   /// Liste des noeuds qui composent la surface de contact
   /** @dia:route 45,10;h,247.15,87.3,260.75,100.7,289.8 */
-  List<Node *> nodes;
+  ListIndex<Node *> nodes;
 
 public:
   /** @dia:route 25,11;h,302.85,84.3,308.75,100.7,306.05 */

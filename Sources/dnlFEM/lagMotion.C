@@ -24,6 +24,10 @@
 #include <Node.h>
 #include <NodalField.h>
 
+#include <iostream>
+
+using namespace std;
+
 //-----------------------------------------------------------------------------
 lagMotion::lagMotion()
 //-----------------------------------------------------------------------------
@@ -49,15 +53,15 @@ lagMotion::~lagMotion()
 Cette m�thode effectue la mise � jour de la position d'un noeud de la structure. Les nouvelles coordonn�es sont donn�es par la relation: \f[ x_1=x_0+u_1 \f]
 */
 //-----------------------------------------------------------------------------
-void lagMotion::updateNode(Real timeStep)
+void lagMotion::updateNode(double timeStep)
 //-----------------------------------------------------------------------------
 {
   // update node coordinates
-  node->coords += node->New->delta_disp;
+  node->coords += node->field1->u;
 }
 
 //-----------------------------------------------------------------------------
-void lagMotion::computeForces(Real timeStep)
+void lagMotion::computeForces(double timeStep)
 //-----------------------------------------------------------------------------
 {
 }
