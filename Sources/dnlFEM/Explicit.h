@@ -56,6 +56,13 @@ public:
   void setDissipation(double dissipation);
   void solve(double solveUpToTime);
   void updateTimes();
+
+  // void computeEnergy();
+  // void computeMomentum();
+  // void computeTemperatures();
+  void scanInterfaces();
+  void computeContactForces();  
+  
 };
 
 #endif

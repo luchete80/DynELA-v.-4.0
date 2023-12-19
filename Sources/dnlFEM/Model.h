@@ -22,6 +22,7 @@ class Node;
 class NodeSet;
 class Solver;
 class Material;
+class Interface;
 
 //-----------------------------------------------------------------------------
 // Class : class Model
@@ -62,6 +63,7 @@ public:
   ListIndex<Node *> nodes;          // List of the Nodes
   MatrixDiag massMatrix;            // Mass matrix
   Solver *solver = NULL;            // solveurs associes au modele
+  List<Interface *> interfaces;     //!< Liste des interfaces de contact du domaine
   String name = "Model::_noname_";  // Name of the model
   Vector internalForces;            // Vecteur des forces internes
 

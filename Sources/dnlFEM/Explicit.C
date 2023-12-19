@@ -15,6 +15,8 @@
 #include <NodalField.h>
 #include <BoundaryCondition.h>
 #include <Material.h>
+#include <Interface.h>
+#include <NodeMotion.h>
 
 extern DynELA *dynelaData;
 
@@ -233,7 +235,15 @@ void Explicit::solve(double solveUpToTime)
     dynelaData->cpuTimes.timer("Density")->start();
     computeDensity();
     dynelaData->cpuTimes.timer("Density")->stop();
+    
+    dynelaData->cpuTimes.timer("Interfaces")->start();
+    scanInterfaces();
+    dynelaData->cpuTimes.timer("Interfaces")->stop();
 
+    dynelaData->cpuTimes.timer("ContactForces")->start();
+    computeContactForces();
+    dynelaData->cpuTimes.timer("ContactForces")->stop();
+    
     // End step
     endStep();
 
@@ -561,13 +571,141 @@ void Explicit::computeDensity()
   }
 }
 
+
+// //-----------------------------------------------------------------------------
+// void ExplicitSolver::computeEnergy()
+// //-----------------------------------------------------------------------------
+// {
+      // Element *pel;
+      // Node *pnd;
+      // long nonodes;
+      // long i, el, glob;
+
+// #ifdef PRINT_Execution_Solve
+      // cout << "Energy equation\n";
+// #endif
+
+      // // matrice M, et vecteur F
+      // MatrixDiag M(domain->nodes.size(), domain->nodes.size());
+      // Vector F(domain->nodes.size());
+      // Vector eInc(domain->nodes.size());
+
+      // for (el = 0; el < domain->elements.size(); el++)
+      // {
+
+            // // chargement de l'element en cours
+            // pel = domain->elements(el);
+
+            // // nombre de noeuds de l'element
+            // nonodes = pel->getNumberOfNodes();
+
+            // // matrice Me, et vecteur Fe
+            // MatrixDiag Me(nonodes, nonodes);
+            // Vector Fe(nonodes);
+
+            // // integration de la conservation de la masse
+            // // sur l'element courant
+            // pel->computeEnergyEquation(Me, Fe);
+
+            // // assemblage de la matrice de masse
+            // // et du vecteur
+            // for (i = 0; i < nonodes; i++)
+            // {
+
+                  // // recuperation du numero global
+                  // glob = pel->nodes(i)->Id;
+
+                  // // assemblage de M
+                  // M(glob) += Me(i);
+
+                  // // assemblage de F
+                  // F(glob) += Fe(i);
+            // }
+      // }
+
+      // // resolution du systeme M x q = F
+      // eInc = M.Solve(F);
+      // //    cout << eInc <<endl;
+
+      // // update du champ des energies
+      // for (i = 0; i < domain->nodes.size(); i++)
+      // {
+            // pnd = domain->nodes(i);
+            // pnd->New->de = eInc(i);
+
+            // // mise a jour de la masse nodale
+            // pnd->mass = M(i);
+      // }
+// }
+
 // Renvoie le parametre \f$\alpha_M\f$ de l'integration de Chung-Hulbert
 /*
   Cette methode renvoie la valeur du parametre \f$\alpha_M\f$ pour le schema d'integration de Chung-Hulbert.
   \see computeIntegrationParameters()
   Return : valeur numerique de \f$\alpha_M\f$
 
+//-----------------------------------------------------------------------------
+void Explicit::computeTemperatures()
+//-----------------------------------------------------------------------------
+{
+      Node *pnd;
+      Material *pmat;
+      long no;
+      Real coeff;
 
+      coeff = 1.0;
+
+      for (no = 0; no < domain->nodes.size(); no++)
+      {
+
+            // recuperation du noeud
+            pnd = domain->nodes(no);
+
+            // chargement du materiau
+            pmat = pnd->elements(0)->material;
+
+            // calcul de la temperature
+            pnd->New->T = pnd->T0 + coeff * pnd->New->e / pmat->heatCoeff();
+      }
+}*/
+
+//-----------------------------------------------------------------------------
+void Explicit::scanInterfaces()
+//-----------------------------------------------------------------------------
+{
+#ifdef PRINT_Execution_Solve
+      cout << "Scanning des interfaces\n";
+#endif
+
+      // recherche des penetrations d'elements
+      // sur la liste des interfaces du domaine
+      for (long it = 0; it < model->interfaces.size(); it++)
+      {
+            model->interfaces(it)->ScanIncludeNodes();
+      }
+
+      // // calculs
+      // //  for (long it=0;it<interfaces.size();it++) {
+    // //interfaces(it)->computeSpeeds(times.timeStep);
+  // //}
+}
+
+//-----------------------------------------------------------------------------
+void Explicit::computeContactForces()
+//-----------------------------------------------------------------------------
+{
+      long no;
+
+#ifdef PRINT_Execution_Solve
+      cout << "contact forces computation\n";
+#endif
+
+      for (no = 0; no < model->nodes.size(); no++)
+      {
+            model->nodes(no)->motion->computeForces(timeStep);
+      }
+}
+/*
 //-----------------------------------------------------------------------------
 double Explicit::getAlphaM()
 //-----------------------------------------------------------------------------
