@@ -45,17 +45,24 @@ struct ls_material{
   
 };
 
-struct ls_spc{
+struct ls_spc_node{
   int  m_node_id;
-  bool m_fix_UR[6];
+  bool m_fix_dof[6];
 };
+
+/////////////////////////
+//NON CLASS FUNCTIONS ///
+/////////////////////////
+// FOR FORTRAN OR OTHER LANGUAGE VERSION
+//std::vector <string> getLines(char* fname){}
+/* extern "C" */ void readNodes(char *fName, double **nodes, int *node_count);
+void readSPCNodes(int *sections, int **node_ids, bool **dofs);
 
 class lsdynaReader{
 public:  
   lsdynaReader(){}
   lsdynaReader(const char *);
 
-protected:
   int m_line_count;
   int m_node_count;
   int m_elem_count;
@@ -64,10 +71,12 @@ protected:
   void removeComments();
   void readElementSolid();
   void readSPCNodes();
-  bool findSection(std::string &str, int * ini_pos, int *end_pos);
+  bool findSection(std::string str, int * ini_pos, int *end_pos);
+  bool readBPMNodes(); //*BOUNDARY_PRESCRIBED_MOTION_NODE
   
   std::vector < ls_node    > m_node;
   std::vector < ls_element > m_elem;
+  std::vector < ls_spc_node > m_spc_nod;
 };
 
 
