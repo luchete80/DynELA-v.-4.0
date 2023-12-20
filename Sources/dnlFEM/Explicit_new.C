@@ -236,13 +236,13 @@ void Explicit::solve(double solveUpToTime)
     computeDensity();
     dynelaData->cpuTimes.timer("Density")->stop();
     
-    // dynelaData->cpuTimes.timer("Interfaces")->start();
-    // scanInterfaces();
-    // dynelaData->cpuTimes.timer("Interfaces")->stop();
+    dynelaData->cpuTimes.timer("Interfaces")->start();
+    scanInterfaces();
+    dynelaData->cpuTimes.timer("Interfaces")->stop();
 
-    // dynelaData->cpuTimes.timer("ContactForces")->start();
-    // computeContactForces();
-    // dynelaData->cpuTimes.timer("ContactForces")->stop();
+    dynelaData->cpuTimes.timer("ContactForces")->start();
+    computeContactForces();
+    dynelaData->cpuTimes.timer("ContactForces")->stop();
     
     // End step
     endStep();

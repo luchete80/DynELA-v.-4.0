@@ -232,7 +232,7 @@ int main()
 
   lsdynaReader("sphere-plate.k");
 
-  //model.solve();
+  // model.solve();
 
   // svg.write('temperatureCP.svg', dnl.Field.T)
   // svg.write('vonMisesCP.svg', dnl.Field.vonMises)
