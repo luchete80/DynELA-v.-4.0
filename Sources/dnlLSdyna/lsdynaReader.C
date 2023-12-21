@@ -135,10 +135,11 @@ void lsdynaReader::readNodes() {
     nod.m_id = id;
     for (int d=0;d<3;d++)
       nod.m_x[d] = readDoubleField(m_line[i], 8+16*d, 16);
-      // cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
-    
-    
+      //cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
+      m_node.push_back(nod);
   }
+  m_node_count = end_pos - ini_pos;
+  cout << "Node count: "<<endl; 
 
 }  //line
 
