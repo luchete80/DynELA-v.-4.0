@@ -17,8 +17,11 @@
 
 #include "lsdynaReader.h"
 
-int main()
-{
+#include <iostream>
+using namespace std;
+
+int main(int argc, char **argv) {
+  if (argc > 1) {
   //# Parameters of the model
   int nbreSaves = 20;
   double stopTime = 1e-3;
@@ -43,33 +46,46 @@ int main()
   
   char *name="BarNecking";
   DynELA model(name);
+
+  cout << "Reading "<<argv[1]<<endl;
+  string fName = argv[1];
+  lsdynaReader reader(fName.c_str());
   
-  // // # Creates the main Object
-  // // # model = dnl.Model('BarNecking')
-  // dnl.DynELA('BarNecking')
+  cout << "Creating nodes..."<<endl;
+  for (int n=0;n<reader.m_node_count;n++){
+    model.createNode(reader.m_node[n].m_id, 
+                     reader.m_node[n].m_x[0],
+                     reader.m_node[n].m_x[1],
+                     reader.m_node[n].m_x[2]);
+  }
   
-  model.createNode(1, 0.,0.,0.);
-  model.createNode(2, .1,0.,0.);
-  model.createNode(3, 0.,.1,0.);
-  model.createNode(4, .1,.1,0.);
-  model.createNode(5, 0.,0.,.1);
-  model.createNode(6, .1,0.,.1);
-  model.createNode(7, 0.,.1,.1);
-  model.createNode(8, .1,.1,.1);
-  // # Creates the Nodes
-  // model.createNode(1, 0., 8.89000034, 6.37024117)
-  // model.createNode(2, 0., 8.89000034, 0.)
-  // model.createNode(3, 0., 0., 0.)
-  // model.createNode(4, 0., 0., 6.3499999)
+  cout << "Creatng elements... "<<endl;
+  for (int e=0;e<reader.m_elem_count;e++){
+    model.setDefaultElement(Element::ElHex8N3D);
+    cout << "nodes: ";
+    for (int i=0;i<8;i++) cout << reader.m_elem[e].node[i]<<", ";
+    cout <<endl;
+    model.createElement(reader.m_elem[e].id, 
+                          reader.m_elem[e].node[0], reader.m_elem[e].node[1], 
+                          reader.m_elem[e].node[2], reader.m_elem[e].node[3], 
+                          reader.m_elem[e].node[4], reader.m_elem[e].node[5], 
+                          reader.m_elem[e].node[6], reader.m_elem[e].node[7]);
+  }
+  
+  // model.solve();
+
+  // svg.write('temperatureCP.svg', dnl.Field.T)
+  // svg.write('vonMisesCP.svg', dnl.Field.vonMises)
+  // svg.write('plasticStrainCP.svg', dnl.Field.plasticStrain)
+
+  // # Plot the results as curves
+  // import dnlCurves as cu
+  // curves = cu.Curves()
+  // curves.plotFile('Curves.ex')
 
 
-  model.setDefaultElement(Element::ElHex8N3D);
-  model.createElement(1, 1, 2, 4, 3, 5, 6, 8, 7);
 
-  // print('Number of elements created:', model.getElementsNumber())
-
-  // allNS = dnl.NodeSet('NS_All')
-  // model.add(allNS, 1, 4879)
+  
 
   ElementSet allES("ES_All");
   model.add(&allES,1,1);
@@ -229,19 +245,9 @@ int main()
   // svg.rotate(dnl.Vec3D(1, 0, 0), -70)
   // svg.rotate(dnl.Vec3D(0, 1, 0), -60)
   // svg.write('mesh.svg')
-
-  // lsdynaReader("sphere-plate.k");
-
-  model.solve();
-
-  // svg.write('temperatureCP.svg', dnl.Field.T)
-  // svg.write('vonMisesCP.svg', dnl.Field.vonMises)
-  // svg.write('plasticStrainCP.svg', dnl.Field.plasticStrain)
-
-  // # Plot the results as curves
-  // import dnlCurves as cu
-  // curves = cu.Curves()
-  // curves.plotFile('Curves.ex')
   
+  } else {
+    cout << "Please enter input file "<<endl;
+  }
   return 0;
 }

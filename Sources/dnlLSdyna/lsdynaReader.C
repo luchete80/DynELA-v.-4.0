@@ -201,6 +201,7 @@ bool readBPMNodes() {
 }
 
 lsdynaReader::lsdynaReader(const char *fname){
+  cout << "Reading file "<<endl;
   string line;
   m_line_count = 0;
   int start, end;
