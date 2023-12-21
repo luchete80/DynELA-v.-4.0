@@ -146,6 +146,7 @@ public:
     void computePressure();
     //  void computeStateEquationOld();
     void computeStrains();
+    void computeStrainRates(); //LUCHETE80, RADIOSS & LS-DYNA FORM TO CALC STRAINS (NO UV DECOMP)
     //  void computeStrainsOld(double);
     void computeStress(double timeStep);
     void computeStressDirect(double timeStep);

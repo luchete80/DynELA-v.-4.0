@@ -12,6 +12,8 @@
 #include <Node.h>
 #include <Field.h>
 
+#include <NodalField.h> //For new strain rate calc
+
 /*
 @LABEL:Element::Element(long n, double x, double y, double z)
 @SHORT:Constructor of the Element class with initialization.
@@ -1118,6 +1120,49 @@ void Element::computeStrains()
 
     // Compute the total strain tensor
     _integrationPoint->Strain += _integrationPoint->StrainInc;
+  }
+}
+
+//-----------------------------------------------------------------------------
+void Element::computeStrainRates()
+//-----------------------------------------------------------------------------
+{
+  Tensor2 F;
+
+  for (short intPointId = 0; intPointId < getNumberOfIntegrationPoints(); intPointId++)
+  {
+    // Get back the current integration point
+    setCurrentIntegrationPoint(intPointId);
+    _integrationPoint->StrainRate = 0.0;
+        
+    for (int n = 0; n < _elementData->numberOfNodes; n++){
+      for (int d=0; d < _elementData->numberOfDimensions; d++){
+        _integrationPoint->StrainRate(d,d) += _integrationPoint->dShapeFunction(n, d) * nodes (n)->field0->speed(d);//WHICH VELOCITY? CURRENT?? SHOULD ME THE MIDDLE ONE AT T + 1/2
+      }
+      _integrationPoint->StrainRate(1,2) += _integrationPoint->dShapeFunction(n, 2) * nodes (n)->field0->speed(1) + 
+                                            _integrationPoint->dShapeFunction(n, 1) * nodes (n)->field0->speed(2);
+      _integrationPoint->StrainRate(2,3) += _integrationPoint->dShapeFunction(n, 3) * nodes (n)->field0->speed(2) +
+                                            _integrationPoint->dShapeFunction(n, 2) * nodes (n)->field0->speed(3);
+      if (_elementData->numberOfDimensions > 2)
+        _integrationPoint->StrainRate(1,3) += _integrationPoint->dShapeFunction(n, 3) * nodes (n)->field0->speed(1);
+    }
+    _integrationPoint->StrainRate *= 0.5;
+    
+      // f = 1.0d0/elem%detJ(e,gp)
+      // temp = elem%dHxy_detJ(e,gp,:,:) * f!!!!TODO: MODIFY BY MULTIPLYING
+      // do n=1, nodxelem  
+        // do d=1, dim
+      // // elem%str_rate(e,gp, d,d) = elem%str_rate(e,gp, d,d) + temp(d,n) * elem%vele (e,dim*(n-1)+d,1) 
+        // elem%str_rate(e,gp, 1,2) = elem%str_rate(e,gp, 1,2) + temp(2,n)* elem%vele (e,dim*(n-1)+1,1) &!!!!dvx/dy
+                                   // + temp(1,n) * elem%vele (e,dim*(n-1)+2,1)
+    // // Computation of the Gradient of deformation
+    // computeDeformationGradient(F, 0);
+
+    // // Polar decomposition
+    // F.polarCuppenLnU(_integrationPoint->StrainInc, _integrationPoint->R);
+
+    // // Compute the total strain tensor
+    // _integrationPoint->Strain += _integrationPoint->StrainInc;
   }
 }
 
