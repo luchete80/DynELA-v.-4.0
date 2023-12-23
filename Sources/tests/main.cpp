@@ -59,19 +59,33 @@ int main(int argc, char **argv) {
                      reader.m_node[n].m_x[2]);
   }
   
-  cout << "Creatng elements... "<<endl;
+  cout << "Creating elements... "<<endl;
   for (int e=0;e<reader.m_elem_count;e++){
     model.setDefaultElement(Element::ElHex8N3D);
-    cout << "nodes: ";
-    for (int i=0;i<8;i++) cout << reader.m_elem[e].node[i]<<", ";
-    cout <<endl;
+    // cout << "nodes: ";
+    // for (int i=0;i<8;i++) cout << reader.m_elem[e].node[i]<<", ";
+    // cout <<endl;
     model.createElement(reader.m_elem[e].id, 
                           reader.m_elem[e].node[0], reader.m_elem[e].node[1], 
                           reader.m_elem[e].node[2], reader.m_elem[e].node[3], 
                           reader.m_elem[e].node[4], reader.m_elem[e].node[5], 
                           reader.m_elem[e].node[6], reader.m_elem[e].node[7]);
   }
-  
+
+
+  /// THIS SHOULD CHECK IF ALL BCS ARE THE SAME, THEN CREATE AN UNIQUE SET.
+  /// 
+  // NodeSet boundarySPC_NOD ("NS_boundarySPC");  //FROM BOUNDARY_SPC_NODE KEYWORD(s)
+  // for (int bcn = 0; bcn < reader.m_spc_nod.size(); bcn++ ){
+    // model.add(&boundarySPC_NOD, reader.m_spc_nod[bcn].m_node_id);
+  // }
+
+  for (int ns = 0; ns < reader.m_set_nod.size(); ns++ ){
+    NodeSet boundarySPC_SET ("NS_boundarySPC");  //FROM BOUNDARY_SPC_NODE KEYWORD(s)
+    for (int bcn = 0; bcn < reader.m_set_nod[ns].m_node_id.size(); bcn++ ){
+      model.add(&boundarySPC_SET, reader.m_set_nod[ns].m_node_id[bcn]);
+    }
+  }
   // model.solve();
 
   // svg.write('temperatureCP.svg', dnl.Field.T)
@@ -137,6 +151,15 @@ int main(int argc, char **argv) {
   bottomBC.setValue(1, 1, 1);
   model.attachConstantBC(&bottomBC, &bottomNS);
 
+  std::vector <BoundaryRestrain*> BC_set;
+  for (int ns = 0; ns < reader.m_set_nod.size(); ns++ ){
+    //NodeSet boundarySPC_SET ("NS_boundarySPC");  //FROM BOUNDARY_SPC_NODE KEYWORD(s)
+    BC_set.push_back ( new BoundaryRestrain ("BC_set"));
+    BC_set[ns]->setValue(1, 0, 1);
+    //Search node set
+    model.attachConstantBC(BC_set[ns], &bottomNS);
+  }
+  
   BoundaryRestrain bottomBCx ("BC_bottomxz");
   bottomBC.setValue(1, 0, 1);
   model.attachConstantBC(&bottomBCx, &bottomNS);

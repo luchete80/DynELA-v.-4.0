@@ -30,6 +30,11 @@ struct ls_element {
   std::vector <int> node;
 };
 
+struct ls_set {
+  int m_id;
+  std::vector <int> m_node_id;
+};
+
 struct ls_property {
   
   
@@ -70,13 +75,17 @@ public:
   void readNodes();
   void removeComments();
   void readElementSolid();
+  void readSPCSet();
   void readSPCNodes();
+  void readSetNodeList();
   bool findSection(std::string str, int * ini_pos, int *end_pos);
   bool readBPMNodes(); //*BOUNDARY_PRESCRIBED_MOTION_NODE
   
   std::vector < ls_node    > m_node;
   std::vector < ls_element > m_elem;
   std::vector < ls_spc_node > m_spc_nod;
+  std::vector < ls_spc_node > m_spc_set;
+  std::vector < ls_set >      m_set_nod;
 };
 
 
