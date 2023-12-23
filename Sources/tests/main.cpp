@@ -59,6 +59,7 @@ int main(int argc, char **argv) {
                      reader.m_node[n].m_x[2]);
   }
   
+  cout << "Element count:" << reader.m_elem_count<<endl; 
   cout << "Creating elements... "<<endl;
   for (int e=0;e<reader.m_elem_count;e++){
     model.setDefaultElement(Element::ElHex8N3D);
@@ -79,13 +80,15 @@ int main(int argc, char **argv) {
   // for (int bcn = 0; bcn < reader.m_spc_nod.size(); bcn++ ){
     // model.add(&boundarySPC_NOD, reader.m_spc_nod[bcn].m_node_id);
   // }
-
+  cout << "Creating Sets..." << endl;
   for (int ns = 0; ns < reader.m_set_nod.size(); ns++ ){
     NodeSet boundarySPC_SET ("NS_boundarySPC");  //FROM BOUNDARY_SPC_NODE KEYWORD(s)
     for (int bcn = 0; bcn < reader.m_set_nod[ns].m_node_id.size(); bcn++ ){
       model.add(&boundarySPC_SET, reader.m_set_nod[ns].m_node_id[bcn]);
     }
+    cout << "Node set "<< ns << ", node count: "<<reader.m_set_nod[ns].m_node_id.size()<<endl;
   }
+  cout << "Node Set count: "<<reader.m_set_nod.size()<<endl;
   // model.solve();
 
   // svg.write('temperatureCP.svg', dnl.Field.T)

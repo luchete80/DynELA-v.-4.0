@@ -99,6 +99,7 @@ bool lsdynaReader::findSection(string str, int * ini_pos, int *end_pos){
   
   bool end = false;
   bool found = false;
+  int length;
   int i = 0;
   cout << "Reading Elements"<<endl;
   while (!end){
@@ -107,9 +108,9 @@ bool lsdynaReader::findSection(string str, int * ini_pos, int *end_pos){
         found = true;
         cout << "Found section" << str << " at line "<<i<<endl;
         *ini_pos = i+1;
-        m_elem_count = findNextCommandLine(i,m_line) - i;
-        *end_pos = *ini_pos + m_elem_count -1 ;
-        cout << "Section length: "<<m_elem_count<<endl;
+        length = findNextCommandLine(i,m_line) - i;
+        *end_pos = *ini_pos + length -1 ;
+        cout << "Section length: "<<length<<endl;
         end = true;
       }
     if (i==m_line_count) {
@@ -165,7 +166,7 @@ void lsdynaReader::readElementSolid() {
       m_elem.push_back(ls_el);
     
   }
-
+  m_elem_count = end_pos - ini_pos; //TODO: CHANGE IF DIFFERENT ELEMENT TYPES FOUND
 }  //line
 
 /********************************************/
