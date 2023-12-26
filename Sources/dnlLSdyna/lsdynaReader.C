@@ -218,8 +218,11 @@ void lsdynaReader::readSetNodeList(){
   findSection ("*SET_NODE_LIST", &ini_pos, &end_pos); //TODO: SEARCH NODE LIST TITLE
   
   int k = 0;
-  for (i=ini_pos;i<end_pos;i++){
+  // READ SET ID AT ini_pos+1
+    
+  for (i=ini_pos+2;i<end_pos;i++){
     int id, cid;
+    cout << "line "<< i <<m_line[i]<<endl;
     ls_set ls_nodeset;
     // cout << "Elem node count "<<nodecount <<endl;
     ls_nodeset.m_id  = readIntField(m_line[i], 0, 10);
