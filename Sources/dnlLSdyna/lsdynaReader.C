@@ -115,7 +115,7 @@ bool lsdynaReader::findSection(string str, int * ini_pos, int *end_pos){
       }
     if (i==m_line_count) {
       end = true;
-      cout << "ELEMENT not defined "<<endl;
+      cout << str <<" not defined "<<endl;
     }
     i++;
   } 
@@ -215,7 +215,7 @@ void lsdynaReader::readSetNodeList(){
   int ini_pos, end_pos;
   int i = 0;
   cout << "Searching Node List Title"<<endl;
-  findSection ("*SET_NODE_LIST_TITLE", &ini_pos, &end_pos);
+  findSection ("*SET_NODE_LIST", &ini_pos, &end_pos); //TODO: SEARCH NODE LIST TITLE
   
   int k = 0;
   for (i=ini_pos;i<end_pos;i++){
@@ -307,6 +307,7 @@ lsdynaReader::lsdynaReader(const char *fname){
   readNodes();
   readElementSolid();
   readSPCNodes();
+  readSetNodeList();
   //CHECK FOR
 // *BOUNDARY_SPC_SET
 // $#    nsid       cid      dofx      dofy      dofz     dofrx     dofry     dofrz

@@ -80,13 +80,13 @@ int main(int argc, char **argv) {
   // for (int bcn = 0; bcn < reader.m_spc_nod.size(); bcn++ ){
     // model.add(&boundarySPC_NOD, reader.m_spc_nod[bcn].m_node_id);
   // }
-  cout << "Creating Sets..." << endl;
+  cout << "Creating " <<reader.m_set_nod.size() <<" Node Sets..." << endl;
   for (int ns = 0; ns < reader.m_set_nod.size(); ns++ ){
+    cout << "Node set "<< ns << ", node count: "<<reader.m_set_nod[ns].m_node_id.size()<<endl;
     NodeSet boundarySPC_SET ("NS_boundarySPC");  //FROM BOUNDARY_SPC_NODE KEYWORD(s)
     for (int bcn = 0; bcn < reader.m_set_nod[ns].m_node_id.size(); bcn++ ){
       model.add(&boundarySPC_SET, reader.m_set_nod[ns].m_node_id[bcn]);
     }
-    cout << "Node set "<< ns << ", node count: "<<reader.m_set_nod[ns].m_node_id.size()<<endl;
   }
   cout << "Node Set count: "<<reader.m_set_nod.size()<<endl;
   // model.solve();
