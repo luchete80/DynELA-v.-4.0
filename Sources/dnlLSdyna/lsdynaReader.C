@@ -334,6 +334,12 @@ lsdynaReader::lsdynaReader(const char *fname){
 }
 
 
+// *BOUNDARY_PRESCRIBED_MOTION_SET
+// $     nsid       dof       vad      lcid        sf       vid     death
+         // 1         3         2         1     -15.0
+// $
+
+
 //// NON CLASS /////
 void readNodes(char *fName, double **nodes, int *node_count){
   lsdynaReader reader(fName);
