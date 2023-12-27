@@ -95,27 +95,26 @@ int readIntField(string &str, const int &pos, const int &length) {
   return ret;
 }
 
-bool lsdynaReader::findSection(string str, int * ini_pos, int *end_pos){
+bool lsdynaReader::findSection(string str, int * ini_pos, int *end_pos, int i_from){
   
   bool end = false;
   bool found = false;
   int length;
-  int i = 0;
+  int i = i_from;
   cout << "Reading Elements"<<endl;
   while (!end){
 
       if (m_line[i].find(str) != std::string::npos){
         found = true;
-        cout << "Found section" << str << " at line "<<i<<endl;
+        //cout << "Found section" << str << " at line "<<i<<endl;
         *ini_pos = i+1;
         length = findNextCommandLine(i,m_line) - i;
         *end_pos = *ini_pos + length -1 ;
-        cout << "Section length: "<<length<<endl;
+        //cout << "Section length: "<<length<<endl;
         end = true;
       }
     if (i==m_line_count) {
       end = true;
-      cout << str <<" not defined "<<endl;
     }
     i++;
   } 
@@ -187,10 +186,10 @@ void lsdynaReader::readSPCNodes(){
     ls_nspc.m_node_id  = readIntField(m_line[i], 0, 10);
     //cout << "m_node "<<ls_nspc.m_node_id<<endl;
     // ls_el.cid = readIntField(m_line[i], 1, 8);
-    
+    cout << "constrained dofs "<<endl;
     for (int d=0;d<6;d++){
       ls_nspc.m_fix_dof[d] = readIntField(m_line[i], 20+10*d, 10);
-      //cout << ls_nspc.m_fix_dof[d]<< "; ";
+      cout << ls_nspc.m_fix_dof[d]<< "; ";
     }
       // cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
     //cout << "spc: "<<k<<endl; k++;
@@ -215,31 +214,37 @@ void lsdynaReader::readSetNodeList(){
   int ini_pos, end_pos;
   int i = 0;
   cout << "Searching Node List Title"<<endl;
-  findSection ("*SET_NODE_LIST", &ini_pos, &end_pos); //TODO: SEARCH NODE LIST TITLE
-  
+  end = false;
   int k = 0;
   // READ SET ID AT ini_pos+1
-    
-  for (i=ini_pos+2;i<end_pos;i++){
-    int id, cid;
-    cout << "line "<< i <<m_line[i]<<endl;
+  int i_from = 0;
+  while (!end) {
     ls_set ls_nodeset;
-    // cout << "Elem node count "<<nodecount <<endl;
-    ls_nodeset.m_id  = readIntField(m_line[i], 0, 10);
-    //cout << "m_node "<<ls_nspc.m_node_id<<endl;
-    // ls_el.cid = readIntField(m_line[i], 1, 8);
-    
-    // UP TO 8 NODES
-    // CHECK IF NODE IS RIGHT
-    for (int d=0;d<8;d++){
-      ls_nodeset.m_node_id.push_back(readIntField(m_line[i], 10*d, 10));
-      //cout << ls_nspc.m_fix_dof[d]<< "; ";
-    }
-      // cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
-    //cout << "spc: "<<k<<endl; k++;
-    m_set_nod.push_back(ls_nodeset);    
+    if (findSection ("*SET_NODE_LIST", &ini_pos, &end_pos, i_from)) {//TODO: SEARCH NODE LIST TITLE
+      for (i=ini_pos+2;i<end_pos;i++){
+        int id, cid;
+        //cout << "line "<< i <<m_line[i]<<endl;
+        // cout << "Elem node count "<<nodecount <<endl;
+        ls_nodeset.m_id  = readIntField(m_line[i], 0, 10);
+        //cout << "m_node "<<ls_nspc.m_node_id<<endl;
+        // ls_el.cid = readIntField(m_line[i], 1, 8);
+        
+        // UP TO 8 NODES
+        // CHECK IF NODE IS RIGHT
+        int fields = m_line[i].size()/10;
+        for (int d=0;d<fields;d++){
+          ls_nodeset.m_node_id.push_back(readIntField(m_line[i], 10*d, 10));
+          //cout << ls_nspc.m_fix_dof[d]<< "; ";
+        }
+          // cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
+        //cout << "spc: "<<k<<endl; k++;
+        i_from = end_pos;
+      }//for 
+      m_set_nod.push_back(ls_nodeset);
+    } else {
+      end = true;
+    }    
   }
-  
 }
 
 // *BOUNDARY_SPC_OPTION1_{OPTION2}
@@ -255,30 +260,37 @@ bool readBPMNodes() {
 /* 1 NODE ID AND N DOF AND */
 void lsdynaReader::readSPCSet(){
   
-    bool end = false;
   int ini_pos, end_pos;
   int i = 0;
   cout << "Searching Boundary SPC"<<endl;
-  findSection ("*BOUNDARY_SPC_SET", &ini_pos, &end_pos);
+  bool end = false;
   
   int k = 0;
-  for (i=ini_pos;i<end_pos;i++){
-    int id, cid;
-    ls_spc_node ls_nspc;
-    // cout << "Elem node count "<<nodecount <<endl;
-    ls_nspc.m_node_id  = readIntField(m_line[i], 0, 10);
-    //cout << "m_node "<<ls_nspc.m_node_id<<endl;
-    // ls_el.cid = readIntField(m_line[i], 1, 8);
-    
-    for (int d=0;d<6;d++){
-      ls_nspc.m_fix_dof[d] = readIntField(m_line[i], 20+10*d, 10);
-      //cout << ls_nspc.m_fix_dof[d]<< "; ";
-    }
-      // cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
-    //cout << "spc: "<<k<<endl; k++;
-    m_spc_set.push_back(ls_nspc);    
-  }
-  
+  int i_pos = 0;
+  while (!end){
+    if (findSection ("*BOUNDARY_SPC_SET", &ini_pos, &end_pos, i_pos)) {
+    ls_set ls_nodeset;
+      for (i=ini_pos;i<end_pos;i++){
+        int id, cid;
+        ls_spc_node ls_nspc;
+        // cout << "Elem node count "<<nodecount <<endl;
+        ls_nspc.m_node_id  = readIntField(m_line[i], 0, 10);
+        //cout << "m_node "<<ls_nspc.m_node_id<<endl;
+        // ls_el.cid = readIntField(m_line[i], 1, 8);
+        
+        for (int d=0;d<6;d++){
+          ls_nspc.m_fix_dof[d] = readIntField(m_line[i], 20+10*d, 10);
+          //cout << ls_nspc.m_fix_dof[d]<< "; ";
+        }
+          // cout << "Node "<<id <<"XYZ: "<<nod.m_x[0]<<", "<<nod.m_x[1]<<", "<<nod.m_x[2]<<endl; 
+        //cout << "spc: "<<k<<endl; 
+        k++;
+        m_spc_set.push_back(ls_nspc);    
+      }
+        i_pos = end_pos;
+      } else {end = true;}
+  }//while 
+  cout << "Created "<<k <<" BC node sets "<<endl;
 }
 
 // AND TO DEFINE SET
@@ -311,6 +323,7 @@ lsdynaReader::lsdynaReader(const char *fname){
   readElementSolid();
   readSPCNodes();
   readSetNodeList();
+  readSPCSet();
   //CHECK FOR
 // *BOUNDARY_SPC_SET
 // $#    nsid       cid      dofx      dofy      dofz     dofrx     dofry     dofrz

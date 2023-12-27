@@ -78,7 +78,7 @@ public:
   void readSPCSet();
   void readSPCNodes();
   void readSetNodeList();
-  bool findSection(std::string str, int * ini_pos, int *end_pos);
+  bool findSection(std::string str, int * ini_pos, int *end_pos, int i_from=0);
   bool readBPMNodes(); //*BOUNDARY_PRESCRIBED_MOTION_NODE
   
   std::vector < ls_node    > m_node;

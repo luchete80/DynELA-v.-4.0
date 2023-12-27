@@ -155,25 +155,27 @@ int main(int argc, char **argv) {
   model.attachConstantBC(&bottomBC, &bottomNS);
 
   std::vector <BoundaryRestrain*> BC_set;
-  for (int ns = 0; ns < reader.m_set_nod.size(); ns++ ){
+  for (int ns = 0; ns < reader.m_spc_set.size(); ns++ ){
     //NodeSet boundarySPC_SET ("NS_boundarySPC");  //FROM BOUNDARY_SPC_NODE KEYWORD(s)
     BC_set.push_back ( new BoundaryRestrain ("BC_set"));
-    BC_set[ns]->setValue(1, 0, 1);
+    int bcval[3];
+    for (int i=0;i<3;i++){bcval[i] = reader.m_spc_set[ns].m_fix_dof[3];} //NO ROTATION
+    BC_set[ns]->setValue(bcval[0], bcval[1], bcval[2]);
     //Search node set
     model.attachConstantBC(BC_set[ns], &bottomNS);
   }
   
-  BoundaryRestrain bottomBCx ("BC_bottomxz");
-  bottomBC.setValue(1, 0, 1);
-  model.attachConstantBC(&bottomBCx, &bottomNS);
+  // BoundaryRestrain bottomBCx ("BC_bottomxz");
+  // bottomBC.setValue(1, 0, 1);
+  // model.attachConstantBC(&bottomBCx, &bottomNS);
   
-  BoundaryRestrain bottomBCy ("BC_bottomyz");
-  bottomBC.setValue(0, 1, 1);
-  model.attachConstantBC(&bottomBCy, &bottomNS);
+  // BoundaryRestrain bottomBCy ("BC_bottomyz");
+  // bottomBC.setValue(0, 1, 1);
+  // model.attachConstantBC(&bottomBCy, &bottomNS);
 
-  BoundaryRestrain bottomBCz ("BC_bottomz");
-  bottomBC.setValue(0, 0, 1);
-  model.attachConstantBC(&bottomBCx, &bottomNS);  
+  // BoundaryRestrain bottomBCz ("BC_bottomz");
+  // bottomBC.setValue(0, 0, 1);
+  // model.attachConstantBC(&bottomBCx, &bottomNS);  
 
   // # Declaration of a boundary condition for SYMX plane
   // symxBC = dnl.BoundaryRestrain('SYMX_plane')
