@@ -247,6 +247,46 @@ void lsdynaReader::readSetNodeList(){
   }
 }
 
+// *BOUNDARY_PRESCRIBED_MOTION_SET
+// $     nsid       dof       vad      lcid        sf       vid     death
+         // 1         3         2         1     -15.0
+// $
+void lsdynaReader::readBPMotionSet(){
+  
+    bool end = false;
+  int ini_pos, end_pos;
+  int i = 0;
+  cout << "Searching Node List Title"<<endl;
+  end = false;
+  int k = 0;
+  // READ SET ID AT ini_pos+1
+  int i_from = 0;
+  while (!end) {
+    ls_bpm_set ls_motionset;
+    if (findSection ("*BOUNDARY_PRESCRIBED_MOTION_SET", &ini_pos, &end_pos, i_from)) {//TODO: SEARCH NODE LIST TITLE
+      for (i=ini_pos+2;i<end_pos;i++){
+        int id, cid;
+        std::vector <int> field;
+
+        for (int d=0;d<4;d++)
+          field[d]=readIntField(m_line[i], 10*d, 10);
+        ls_motionset.m_set_id = field[0];
+        ls_motionset.m_dof    = field[1];
+        ls_motionset.m_vad    = field[2];
+        ls_motionset.m_lcid   = field[3];
+        
+        //cout << "spc: "<<k<<endl; k++;
+        
+        ls_motionset.m_sf = 
+        i_from = end_pos;
+      }//for 
+      m_bpm_set.push_back(ls_motionset);
+    } else {
+      end = true;
+    }    
+  }
+}
+
 // *BOUNDARY_SPC_OPTION1_{OPTION2}
 // ID	Heading
 // NID/set_ID	CID	DOFX	DOFY	DOFZ	DOFXX	DOFYY	DOFZZ

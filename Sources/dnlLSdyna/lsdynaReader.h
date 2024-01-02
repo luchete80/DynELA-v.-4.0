@@ -55,6 +55,19 @@ struct ls_spc_node{
   bool m_fix_dof[6];
 };
 
+struct ls_load_curve{
+  
+};
+
+//Boundary prescribed motion set
+struct ls_bpm_set{
+  int     m_set_id; //set id
+  int     m_dof;    
+  int     m_vad;    //1: velocity, 2: acceleration, 3: displacement
+  int     m_lcid;   //load curve id
+  double  m_sf;     //scale factor
+};
+
 /////////////////////////
 //NON CLASS FUNCTIONS ///
 /////////////////////////
@@ -79,13 +92,15 @@ public:
   void readSPCNodes();
   void readSetNodeList();
   bool findSection(std::string str, int * ini_pos, int *end_pos, int i_from=0);
+  void readBPMotionSet();
   bool readBPMNodes(); //*BOUNDARY_PRESCRIBED_MOTION_NODE
   
-  std::vector < ls_node    > m_node;
-  std::vector < ls_element > m_elem;
+  std::vector < ls_node    >  m_node;
+  std::vector < ls_element >  m_elem;
   std::vector < ls_spc_node > m_spc_nod;
   std::vector < ls_spc_node > m_spc_set;
   std::vector < ls_set >      m_set_nod;
+  std::vector <ls_bpm_set>    m_bpm_set;
 };
 
 
