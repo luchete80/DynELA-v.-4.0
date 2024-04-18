@@ -48,10 +48,10 @@ int main()
   // // # model = dnl.Model('BarNecking')
   // dnl.DynELA('BarNecking')
   
-  model.createNode(1, 0.,0.,0.);
-  model.createNode(2, .1,0.,0.);
-  model.createNode(3, 0.,.1,0.);
-  model.createNode(4, .1,.1,0.);
+  model.createNode(1, 0.01,0.,0.);
+  model.createNode(2, 0.1,0.,0.);
+  model.createNode(3, 0.01,.1,0.);
+  model.createNode(4, 0.1,.1,0.);
   // # Creates the Nodes
   // model.createNode(1, 0., 8.89000034, 6.37024117)
   // model.createNode(2, 0., 8.89000034, 0.)
@@ -122,9 +122,6 @@ int main()
   bottomBC.setValue(0, 1, 1);
   model.attachConstantBC(&bottomBCy, &bottomNS);
 
-  BoundaryRestrain bottomBCz ("BC_bottomz");
-  bottomBC.setValue(0, 0, 1);
-  model.attachConstantBC(&bottomBCx, &bottomNS);  
 
   // # Declaration of a boundary condition for SYMX plane
   // symxBC = dnl.BoundaryRestrain('SYMX_plane')
@@ -138,7 +135,7 @@ int main()
 
   // # Declaration of a boundary condition for top line
   BoundarySpeed speedBC ("BC_speed");
-  speedBC.setValue(0, -speed);
+  speedBC.setValue(0, -speed, 0.0);
   model.attachConstantBC(&speedBC, &topNS);
 
   Explicit solver("Solver");
