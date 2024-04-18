@@ -119,10 +119,7 @@ public:
   Vec3D operator*(const Vec3D &) const;
   Vec3D rowSum() const;
   Vec3D solve(const Vec3D &) const;
-  void numpyRead(std::string);
-  void numpyReadZ(std::string, std::string);
-  void numpyWrite(std::string, bool = false) const;
-  void numpyWriteZ(std::string, std::string, bool = false) const;
+
   void polar(SymTensor2 &, Tensor2 &) const;
   void polarQL(SymTensor2 &, Tensor2 &) const;
   void polarJacobi(SymTensor2 &, Tensor2 &) const;

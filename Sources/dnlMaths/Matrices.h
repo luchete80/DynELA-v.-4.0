@@ -18,7 +18,7 @@
 #include <string.h>
 //#include <dnlKernel.h>
 //#include <Macros.h>
-#include <dnlKernel.h>
+//#include <dnlKernel.h>
 
 #define Ind(i, j, __rows, __cols) ((i) * (__cols) + (j))
 

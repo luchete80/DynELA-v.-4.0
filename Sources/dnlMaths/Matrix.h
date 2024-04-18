@@ -51,6 +51,7 @@ public:
 #ifndef SWIG
   Matrix(int, int, double, double, ...);
   double &operator()(long, long);
+  inline double & getVal(long, long);
   friend Matrix operator*(const double &, const Matrix &);
   friend std::ifstream &operator>>(std::ifstream &, Matrix &);
   friend std::ofstream &operator<<(std::ofstream &, const Matrix &);
@@ -169,6 +170,16 @@ inline double Matrix::operator()(long i, long j) const
 // Access to the values _data[i,j] of matrix
 //-----------------------------------------------------------------------------
 inline double &Matrix::operator()(long i, long j)
+//-----------------------------------------------------------------------------
+{
+#ifdef VERIF_maths
+  indexOK(i, j);
+#endif
+  return _data[Ind(i, j, _rows, _cols)];
+}
+
+//-----------------------------------------------------------------------------
+inline double &Matrix::getVal(long i, long j)
 //-----------------------------------------------------------------------------
 {
 #ifdef VERIF_maths
