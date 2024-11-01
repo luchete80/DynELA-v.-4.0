@@ -60,6 +60,7 @@ int main()
 
 
   model.setDefaultElement(Element::ElQua4NAx);
+  //model.setDefaultElement(Element::ElQua4N2D);
   model.createElement(1, 1, 2, 4, 3);
 
   // print('Number of elements created:', model.getElementsNumber())
