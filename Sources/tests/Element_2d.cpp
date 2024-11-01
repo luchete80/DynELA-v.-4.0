@@ -59,7 +59,7 @@ int main()
   // model.createNode(4, 0., 0., 6.3499999)
 
 
-  model.setDefaultElement(Element::ElQua4N2D);
+  model.setDefaultElement(Element::ElQua4NAx);
   model.createElement(1, 1, 2, 4, 3);
 
   // print('Number of elements created:', model.getElementsNumber())

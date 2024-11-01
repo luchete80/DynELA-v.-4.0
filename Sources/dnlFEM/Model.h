@@ -114,13 +114,15 @@ public:
   void transfertQuantities();
   void writeHistoryFiles();
 
+  void addInterface(Interface* inter);
+  
   /*
   // gestion du temps
   double getTime ();
   void updateTime ();
 
   // interfaces
-  void addInterface(Interface* inter);
+
 
   // fonctions de calculs
 

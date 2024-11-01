@@ -14,6 +14,7 @@
 #include <HistoryFile.h>
 #include <Solver.h>
 #include <BoundaryCondition.h>
+#include "Interface.h"
 
 //-----------------------------------------------------------------------------
 Model::Model(char *newName)
@@ -438,16 +439,16 @@ bool Model::initSolve()
 
   // Compact nodes and elements list
   compactNodesAndElements();
-  /*
+  
 
  // verification des interfaces
-  for (i = 0; i < interfaces.size(); i++)
+  for (int i = 0; i < interfaces.size(); i++)
   {
     dynelaData->logFile << "Interface " << i << " verification ...\n";
     interfaces(i)->Init();
     interfaces(i)->check();
   }
-*/
+
 
   // Get last time for all the solvers
   currentTime = solver->startTime;
@@ -1192,7 +1193,7 @@ double Model::getCurrentTime()
 {
   return currentTime;
 }
-
+*/
 //-----------------------------------------------------------------------------
 void Model::addInterface(Interface *inter)
 //-----------------------------------------------------------------------------
@@ -1203,7 +1204,7 @@ void Model::addInterface(Interface *inter)
 
   interfaces << inter;
 }
-
+/*
 //-----------------------------------------------------------------------------
 void Model::starterWrite(String name)
 //-----------------------------------------------------------------------------
