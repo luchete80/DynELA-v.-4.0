@@ -18,6 +18,7 @@
 #include <Interface.h>
 #include <NodeMotion.h>
 
+using namespace std;
 extern DynELA *dynelaData;
 
 /*
@@ -182,7 +183,8 @@ void Explicit::solve(double solveUpToTime)
 
   // Call of time History saves
   model->writeHistoryFiles();
-
+  
+  cout << "MAIN LOOP"<<"\n";
   while (model->currentTime < _solveUpToTime)
   {
     // Update timestep and increment
@@ -240,9 +242,9 @@ void Explicit::solve(double solveUpToTime)
     scanInterfaces();
     dynelaData->cpuTimes.timer("Interfaces")->stop();
 
-    dynelaData->cpuTimes.timer("ContactForces")->start();
-    computeContactForces();
-    dynelaData->cpuTimes.timer("ContactForces")->stop();
+    //dynelaData->cpuTimes.timer("ContactForces")->start();
+    //computeContactForces();
+    //dynelaData->cpuTimes.timer("ContactForces")->stop();
     
     // End step
     endStep();
