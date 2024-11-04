@@ -12,7 +12,7 @@
 #define __dnlKernel_String_h__
 
 #include "String_.h"
-#include <String>
+#include <string>
 //-----------------------------------------------------------------------------
 // Class : String
 //

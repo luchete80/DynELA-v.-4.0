@@ -22,13 +22,13 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 # -- Search for Python
-FIND_PACKAGE(PythonInterp 3.11 REQUIRED)
-FIND_PACKAGE(PythonLibs 3.11 REQUIRED)
+#FIND_PACKAGE(PythonInterp 3.11 REQUIRED)
+#FIND_PACKAGE(PythonLibs 3.11 REQUIRED)
 
 # -- Search for Swig
-FIND_PACKAGE(SWIG REQUIRED)
+#FIND_PACKAGE(SWIG REQUIRED)
 if (WIN32)
-set (SWIG_DIR D:/Luciano/Numerico/Libs/swigwin-4.1.1/Lib)
+#set (SWIG_DIR D:/Luciano/Numerico/Libs/swigwin-4.1.1/Lib)
 endif()
 
 # add_compile_definitions(SWIG)
@@ -57,9 +57,9 @@ ADD_SUBDIRECTORY(dnlMaterials)
 ADD_SUBDIRECTORY(dnlElements)
 ADD_SUBDIRECTORY(dnlBC)
 ADD_SUBDIRECTORY(dnlFEM)
-ADD_SUBDIRECTORY(dnlLSDyna)
+#ADD_SUBDIRECTORY(dnlLSDyna)
 
-ADD_SUBDIRECTORY(dnlPython)
+#ADD_SUBDIRECTORY(dnlPython)
 
 ADD_SUBDIRECTORY(dnlSettings)
 

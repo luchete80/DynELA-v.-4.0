@@ -30,7 +30,7 @@
 //#include <MacAddress.h>
 #include <Macros.h>
 #include <Settings.h>
-#include <String.h>
+#include <String_.h>
 //#include <System.h>
 #include <Timer.h>
 

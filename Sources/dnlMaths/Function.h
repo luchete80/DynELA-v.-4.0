@@ -11,7 +11,7 @@
 #ifndef __dnlMaths_Function_h__
 #define __dnlMaths_Function_h__
 
-#include <String.h>
+#include "String_.h"
 #include <dnlKernel.h>
 
 //-----------------------------------------------------------------------------
