@@ -27,9 +27,9 @@ int main()
   double speed = 1.0;
 
   //# Material parameters
-  double young = 206.e9;
+  double young = 206000;
   double poisson = 0.3;
-  double density = 7850.;
+  double density = 7.83e-09;
   double heatCapacity = 4.6e+08;
   double taylorQuinney = 0.9;
   double A = 806.0;
@@ -48,14 +48,10 @@ int main()
   // // # model = dnl.Model('BarNecking')
   // dnl.DynELA('BarNecking')
   
-  model.createNode(1, 0.,0.,0.);
-  model.createNode(2, .1,0.,0.);
-  model.createNode(3, 0.,.1,0.);
-  model.createNode(4, .1,.1,0.);
-  model.createNode(5, 0.,0.,.1);
-  model.createNode(6, .1,0.,.1);
-  model.createNode(7, 0.,.1,.1);
-  model.createNode(8, .1,.1,.1);
+  model.createNode(1, 0.01,0.,0.);
+  model.createNode(2, 0.1,0.,0.);
+  model.createNode(3, 0.01,.1,0.);
+  model.createNode(4, 0.1,.1,0.);
   // # Creates the Nodes
   // model.createNode(1, 0., 8.89000034, 6.37024117)
   // model.createNode(2, 0., 8.89000034, 0.)
@@ -63,8 +59,8 @@ int main()
   // model.createNode(4, 0., 0., 6.3499999)
 
 
-  model.setDefaultElement(Element::ElHex8N3D);
-  model.createElement(1, 1, 2, 4, 3, 5, 6, 8, 7);
+  model.setDefaultElement(Element::ElQua4NAx);
+  model.createElement(1, 1, 2, 4, 3);
 
   // print('Number of elements created:', model.getElementsNumber())
 
@@ -75,17 +71,14 @@ int main()
   model.add(&allES,1,1);
 
   NodeSet topNS ("NS_Top");
-  model.add(&topNS,   5);
-  model.add(&topNS,   6);
-  model.add(&topNS,   7);
-  model.add(&topNS,   8);
+  model.add(&topNS,   3);
+  model.add(&topNS,   4);
   
 	omp_set_num_threads(1);
 	
   NodeSet bottomNS("NS_Bottom");   model.add(&bottomNS, 1);
   NodeSet bottomNSy("NS_Bottomy"); model.add(&bottomNS, 2);
-  NodeSet bottomNSx("NS_Bottomx"); model.add(&bottomNS, 3);
-  NodeSet bottomNSz("NS_Bottomz"); model.add(&bottomNS, 4);
+
   // model.add(symzNS, 1474)
   // model.add(symzNS, 1475)
   // model.add(symzNS, 1476)
@@ -129,9 +122,6 @@ int main()
   bottomBC.setValue(0, 1, 1);
   model.attachConstantBC(&bottomBCy, &bottomNS);
 
-  BoundaryRestrain bottomBCz ("BC_bottomz");
-  bottomBC.setValue(0, 0, 1);
-  model.attachConstantBC(&bottomBCx, &bottomNS);  
 
   // # Declaration of a boundary condition for SYMX plane
   // symxBC = dnl.BoundaryRestrain('SYMX_plane')
@@ -145,7 +135,7 @@ int main()
 
   // # Declaration of a boundary condition for top line
   BoundarySpeed speedBC ("BC_speed");
-  speedBC.setValue(0, 0, -speed);
+  speedBC.setValue(0, -speed, 0.0);
   model.attachConstantBC(&speedBC, &topNS);
 
   Explicit solver("Solver");

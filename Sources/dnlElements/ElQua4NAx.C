@@ -134,6 +134,8 @@ const ElementData ElQua4NAx::_elementData = {
         }
         //
     },
+
+
     /*
     4, // Number of mass integration points of the Element
     {
@@ -183,6 +185,7 @@ const ElementData ElQua4NAx::_elementData = {
         }
         //
     },
+    */
 
     4, // Number of side faces of the element
     {
@@ -208,7 +211,7 @@ const ElementData ElQua4NAx::_elementData = {
         }
         //
     },
-
+    /*
     4, // Number of edges of the element
     {
         // Edge number 1

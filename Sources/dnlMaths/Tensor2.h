@@ -13,7 +13,8 @@
 
 #include <string>
 #include <string.h>
-#include <dnlKernel.h>
+//#include <dnlKernel.h>
+#include "Macros.h"
 
 class Vec3D;
 class SymTensor2;

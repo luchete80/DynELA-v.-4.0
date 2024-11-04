@@ -21,8 +21,15 @@ endif()
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O3")
 #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O3 -ffast-math")
 
+
 add_executable (element Element.cpp)
 target_link_libraries(element dnlFEM dnlLSdyna)
+
+#add_executable (element_2d element_2d.cpp)
+#target_link_libraries(element_2d dnlFEM dnlLSdyna)
+
+#add_executable (element_ax element_ax.cpp)
+#target_link_libraries(element_ax dnlFEM dnlLSdyna)
 
 add_executable (dynELA main.cpp)
 target_link_libraries(dynELA dnlFEM dnlLSdyna)
