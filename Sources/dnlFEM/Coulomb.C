@@ -30,7 +30,7 @@
 #include <SideFace.h>
 #include <Model.h>
 
-#include <dynELA.h>
+#include <DynELA.h>
 
 //-----------------------------------------------------------------------------
 CoulombLaw::CoulombLaw()

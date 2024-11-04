@@ -11,7 +11,7 @@
 #ifndef __dnlElements_ElementSet_h__
 #define __dnlElements_ElementSet_h__
 
-#include <String.h>
+#include <String_.h>
 #include <List.h>
 #include <Element.h>
 

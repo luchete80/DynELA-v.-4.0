@@ -29,7 +29,7 @@
 #include <lagMotion.h>
 #include <iostream>
 #include <BoundaryCondition.h>
-#include <dynELA.h>
+#include <DynELA.h>
 
 using namespace std;
 
