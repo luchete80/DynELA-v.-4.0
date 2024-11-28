@@ -33,3 +33,7 @@ target_link_libraries(element dnlFEM dnlLSdyna)
 
 add_executable (dynELA main.cpp)
 target_link_libraries(dynELA dnlFEM dnlLSdyna)
+
+
+add_executable (contact contact.cpp)
+target_link_libraries(contact dnlFEM dnlLSdyna)

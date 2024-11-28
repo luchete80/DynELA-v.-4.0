@@ -242,9 +242,9 @@ void Explicit::solve(double solveUpToTime)
     scanInterfaces();
     dynelaData->cpuTimes.timer("Interfaces")->stop();
 
-    //dynelaData->cpuTimes.timer("ContactForces")->start();
-    //computeContactForces();
-    //dynelaData->cpuTimes.timer("ContactForces")->stop();
+    dynelaData->cpuTimes.timer("ContactForces")->start();
+    computeContactForces();
+    dynelaData->cpuTimes.timer("ContactForces")->stop();
     
     // End step
     endStep();

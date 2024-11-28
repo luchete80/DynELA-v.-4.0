@@ -14,6 +14,9 @@
 
 #include "Field.h"
 
+#include "Side.h"
+#include "SideFace.h"
+#include <Interface.h>
 
 #include "lsdynaReader.h"
 
@@ -161,6 +164,23 @@ int main()
   // vonMisesHist.setSaveTime(stopTime / nbrePoints)
   model.add(&vonMisesHist);
 
+
+  Interface int_body(1);
+  
+  Side masterside;
+  //SideFace2D *sf = new SideFace2D;
+  //masterside.addSideFace(sf);
+  
+  Side slaveside;
+  
+  //sf->addNode(model->getNodeByNumber(3));  
+  //sf->addNode(model->getNodeByNumber(4));
+  //elside.addSideFace(sf);
+
+  //masterside.addNodeSet(&masterNS); //TOP
+  
+  slaveside.addNodeSet(&topNS); //TOP
+  
   // plasticStrainHist = dnl.HistoryFile('plasticStrainHistory')
   // plasticStrainHist.setFileName('plasticStrain.plot')
   // plasticStrainHist.add(histES, 0, dnl.Field.plasticStrain)
